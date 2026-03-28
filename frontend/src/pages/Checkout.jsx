@@ -18,6 +18,17 @@ function Checkout() {
     state: '',
     pincode: ''
   });
+  
+  // Load saved address on mount
+  useEffect(() => {
+    const savedAddress = localStorage.getItem('savedAddress');
+    if (savedAddress) {
+      try {
+        setFormData(JSON.parse(savedAddress));
+      } catch (e) {}
+    }
+  }, []);
+  
   const [errors, setErrors] = useState({});
 
   const fetchCart = useCallback(async () => {
@@ -52,7 +63,7 @@ function Checkout() {
     if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
-    } else if (!/^\\d{10}$/.test(formData.phone.trim())) {
+    } else if (!/^\d{10}$/.test(formData.phone.trim())) {
       newErrors.phone = 'Enter a valid 10-digit phone number';
     }
     if (!formData.addressLine1.trim()) newErrors.addressLine1 = 'Address is required';
@@ -60,7 +71,7 @@ function Checkout() {
     if (!formData.state.trim()) newErrors.state = 'State is required';
     if (!formData.pincode.trim()) {
       newErrors.pincode = 'Pincode is required';
-    } else if (!/^\\d{6}$/.test(formData.pincode.trim())) {
+    } else if (!/^\d{6}$/.test(formData.pincode.trim())) {
       newErrors.pincode = 'Enter a valid 6-digit pincode';
     }
     setErrors(newErrors);
@@ -82,6 +93,10 @@ function Checkout() {
         ...formData
       }, config);
       // Assuming cart context clears automatically or via another refetch
+      // Save address for next time
+      const addressToSave = { ...formData };
+      localStorage.setItem('savedAddress', JSON.stringify(addressToSave));
+
       toast.success('Order placed successfully!');
       navigate(`/order-success?order=${data.data.orderNumber}`);
     } catch (error) {
