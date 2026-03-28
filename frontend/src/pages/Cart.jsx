@@ -8,6 +8,7 @@ import { getProductImage, handleProductImageError } from '../lib/productImages';
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pendingQuantityUpdates, setPendingQuantityUpdates] = useState({});
   const navigate = useNavigate();
   const { refreshCartCount } = useCart();
 
@@ -32,13 +33,25 @@ function Cart() {
   }, [fetchCart]);
 
   const updateQuantity = async (itemId, newQuantity) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1 || pendingQuantityUpdates[itemId]) return;
+
+    const previousItems = cartItems;
+    setPendingQuantityUpdates((prev) => ({ ...prev, [itemId]: true }));
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+
     try {
       await api.patch(`/api/cart/${itemId}`, { quantity: newQuantity });
       await refreshCartCount();
-      fetchCart();
+      await fetchCart();
     } catch (error) {
+      setCartItems(previousItems);
       toast.error('Failed to update quantity');
+    } finally {
+      setPendingQuantityUpdates((prev) => ({ ...prev, [itemId]: false }));
     }
   };
 
@@ -109,15 +122,16 @@ function Cart() {
                     <div className="flex items-center gap-2">
                        <button 
                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                         disabled={item.quantity <= 1}
-                         className="w-7 h-7 rounded-full border border-[#c2c2c2] bg-white flex items-center justify-center text-[18px] font-bold text-flipkart-dark disabled:opacity-40"
+                         disabled={item.quantity <= 1 || pendingQuantityUpdates[item.id]}
+                         className="w-7 h-7 rounded-full border border-[#c2c2c2] bg-white flex items-center justify-center text-[18px] font-bold text-flipkart-dark disabled:opacity-40 disabled:cursor-not-allowed"
                        >-</button>
-                       <div className="w-[42px] h-7 border border-[#c2c2c2] bg-white flex items-center justify-center text-[14px] font-medium">
+                       <div className={`w-[42px] h-7 border border-[#c2c2c2] bg-white flex items-center justify-center text-[14px] font-medium transition-all ${pendingQuantityUpdates[item.id] ? 'scale-95 opacity-70' : 'scale-100 opacity-100'}`}>
                          {item.quantity}
                        </div>
                        <button 
                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                         className="w-7 h-7 rounded-full border border-[#c2c2c2] bg-white flex items-center justify-center text-[18px] font-bold text-flipkart-dark"
+                         disabled={pendingQuantityUpdates[item.id]}
+                         className="w-7 h-7 rounded-full border border-[#c2c2c2] bg-white flex items-center justify-center text-[18px] font-bold text-flipkart-dark disabled:opacity-40 disabled:cursor-not-allowed"
                        >+</button>
                     </div>
                   </div>
