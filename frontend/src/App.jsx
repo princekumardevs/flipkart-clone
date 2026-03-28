@@ -23,8 +23,8 @@ function App() {
           <Router>
             <div className="min-h-screen bg-flipkart-light">
               <Navbar />
-              {/* Global padding top to account for the fixed 56px Navbar */}
-              <main className="pt-[56px]">
+              {/* Global padding top to account for responsive fixed Navbar */}
+              <main className="pt-[108px] md:pt-[56px]">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/product/:id" element={<ProductDetail />} />

@@ -19,23 +19,23 @@ function Signup() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-56px)] bg-flipkart-light py-8">
-      <div className="flex bg-white shadow-md rounded-sm overflow-hidden w-[850px] min-h-[528px]">
+    <div className="flex justify-center items-center min-h-[calc(100vh-56px)] bg-flipkart-light py-4 sm:py-8 px-2 sm:px-4">
+      <div className="flex flex-col md:flex-row bg-white shadow-md rounded-sm overflow-hidden w-full max-w-[850px] min-h-[528px]">
         
         {/* Left Side Info */}
-        <div className="bg-flipkart-blue w-[40%] p-10 flex flex-col justify-between text-white relative bg-[url('https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/login_img_c4a81e.png')] bg-no-repeat bg-position-[center_bottom_100px]">
+        <div className="bg-flipkart-blue w-full md:w-[40%] p-6 sm:p-8 md:p-10 flex flex-col justify-between text-white relative bg-[url('https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/login_img_c4a81e.png')] bg-no-repeat bg-position-[center_bottom_30px] md:bg-position-[center_bottom_100px] min-h-[200px] md:min-h-0">
           <div>
-            <h2 className="text-[28px] font-medium mb-4">Looks like you're new here!</h2>
-            <p className="text-[18px] text-[#dbdbdb] leading-relaxed">
+            <h2 className="text-[22px] sm:text-[28px] font-medium mb-3 sm:mb-4">Looks like you're new here!</h2>
+            <p className="text-[15px] sm:text-[18px] text-[#dbdbdb] leading-relaxed max-w-[32ch]">
               Sign up with your email to get started
             </p>
           </div>
         </div>
 
         {/* Right Side Form */}
-        <div className="w-[60%] p-10 px-12 pb-6 relative flex flex-col">
-          <form className="flex-1 mt-2" onSubmit={handleSubmit}>
-            <div className="flex gap-4 mb-6">
+        <div className="w-full md:w-[60%] p-5 sm:p-8 md:p-10 md:px-12 pb-6 relative flex flex-col">
+          <form className="flex-1 mt-1 sm:mt-2" onSubmit={handleSubmit}>
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
               <div className="relative flex-1">
                 <input
                   type="text"
@@ -102,7 +102,7 @@ function Signup() {
             </button>
           </form>
 
-          <div className="text-center mt-auto pt-8">
+          <div className="text-center mt-auto pt-6 sm:pt-8">
             <Link to="/login" className="w-full py-3 inline-block rounded-sm font-medium text-flipkart-blue shadow-[0_2px_4px_0_rgba(0,0,0,.2)] hover:shadow-[0_2px_4px_0_rgba(0,0,0,.3)] text-[15px] bg-white transition-all">
               Existing User? Log in
             </Link>

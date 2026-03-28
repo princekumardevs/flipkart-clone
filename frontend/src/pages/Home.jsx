@@ -54,42 +54,42 @@ function Home() {
         onCategoryChange={setSelectedCategory}
       />
 
-      <div className="max-w-[1248px] mx-auto px-2 lg:px-0">
+      <div className="max-w-[1248px] mx-auto px-2 sm:px-3 lg:px-0">
         {searchQuery && (
-          <div className="pt-4 pb-2 px-2">
-            <p className="text-[14px] text-flipkart-grey font-medium tracking-wide">
+          <div className="pt-3 sm:pt-4 pb-2 px-1 sm:px-2">
+            <p className="text-[13px] sm:text-[14px] text-flipkart-grey font-medium tracking-wide break-words">
               Showing results for "<span className="text-flipkart-dark">{searchQuery}</span>"
             </p>
           </div>
         )}
 
-        <div className="bg-white mt-4 mb-8 shadow-[0_1px_1px_0_rgba(0,0,0,.16)] rounded-sm overflow-hidden">
-          <div className="px-6 py-5 border-b border-[#f0f0f0]">
-            <h2 className="text-[22px] font-bold text-flipkart-dark">
+        <div className="bg-white mt-3 sm:mt-4 mb-6 sm:mb-8 shadow-[0_1px_1px_0_rgba(0,0,0,.16)] rounded-sm overflow-hidden">
+          <div className="px-3 sm:px-6 py-4 sm:py-5 border-b border-[#f0f0f0]">
+            <h2 className="text-[18px] sm:text-[22px] font-bold text-flipkart-dark">
               {searchQuery ? `Search Results` : (selectedCategory ? `Featured Collection` : `Best of Electronics & Home`)}
             </h2>
           </div>
           
           {loading ? (
-            <div className="grid grid-cols-2 lg:grid-cols-5 p-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 p-3 sm:p-4 gap-3 sm:gap-4">
                {[1,2,3,4,5].map(i => (
-                 <div key={i} className="animate-pulse bg-white flex flex-col p-4 h-[300px]">
-                    <div className="w-full h-[150px] bg-gray-200 mb-4 rounded-sm"></div>
+                 <div key={i} className="animate-pulse bg-white flex flex-col p-3 sm:p-4 h-[240px] sm:h-[300px]">
+                    <div className="w-full h-[120px] sm:h-[150px] bg-gray-200 mb-4 rounded-sm"></div>
                     <div className="h-4 bg-gray-200 w-3/4 mx-auto mb-2 rounded-sm"></div>
                     <div className="h-4 bg-gray-200 w-1/2 mx-auto rounded-sm"></div>
                  </div>
                ))}
             </div>
           ) : products.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20">
-               <svg className="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex flex-col items-center justify-center py-14 sm:py-20 px-4 text-center">
+               <svg className="w-16 h-16 sm:w-24 sm:h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                </svg>
-               <p className="text-flipkart-dark text-[18px] font-medium">Sorry, no products found!</p>
-               <p className="text-flipkart-grey text-[14px] mt-1">Please check the spelling or try searching for something else</p>
+               <p className="text-flipkart-dark text-[16px] sm:text-[18px] font-medium">Sorry, no products found!</p>
+               <p className="text-flipkart-grey text-[13px] sm:text-[14px] mt-1">Please check the spelling or try searching for something else</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 border-l border-t border-[#f0f0f0]">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 border-l border-t border-[#f0f0f0]">
               {products.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}

@@ -62,9 +62,9 @@ function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-flipkart-light pt-8 px-2 pb-8">
-        <div className="max-w-[1248px] mx-auto bg-white p-4 md:p-6 shadow-[0_1px_1px_0_rgba(0,0,0,.16)] min-h-[600px] flex flex-col md:flex-row relative">
-           <div className="w-full md:w-[45%] lg:w-[40%] bg-gray-100 mr-8 mb-6 md:mb-0"></div>
+      <div className="min-h-screen bg-flipkart-light pt-4 sm:pt-6 px-2 sm:px-3 pb-6 sm:pb-8">
+        <div className="max-w-[1248px] mx-auto bg-white p-4 md:p-6 shadow-[0_1px_1px_0_rgba(0,0,0,.16)] min-h-[420px] sm:min-h-[600px] flex flex-col md:flex-row relative">
+           <div className="w-full md:w-[45%] lg:w-[40%] bg-gray-100 mr-0 md:mr-8 mb-6 md:mb-0 min-h-[200px]"></div>
            <div className="w-full md:w-[55%] lg:w-[60%] space-y-4">
               <div className="h-6 bg-gray-200 w-3/4"></div>
               <div className="h-8 bg-gray-200 w-1/4"></div>
@@ -82,19 +82,20 @@ function ProductDetail() {
   const images = product.images?.length > 0 ? product.images : ['https://picsum.photos/400/400'];
 
   return (
-    <div className="min-h-screen bg-flipkart-light pt-4 px-[10px] pb-8">
+    <div className="min-h-screen bg-flipkart-light pt-3 sm:pt-4 px-2 sm:px-[10px] pb-6 sm:pb-8">
       <div className="max-w-[1248px] mx-auto bg-white shadow-[0_1px_1px_0_rgba(0,0,0,.16)] rounded-sm flex flex-col md:flex-row min-h-[600px]">
         
         {/* Left Column: Images & Actions */}
-        <div className="w-full md:w-[40%] border-r border-[#f0f0f0] flex flex-col items-center pt-8 pb-4 sticky top-[56px] self-start h-auto md:h-[calc(100vh-56px)] overflow-y-auto">
-          <div className="flex gap-4 p-4 w-full h-[350px] md:h-[450px]">
+        <div className="w-full md:w-[40%] border-r border-[#f0f0f0] flex flex-col items-center pt-4 sm:pt-6 lg:pt-8 pb-4 lg:sticky lg:top-[56px] self-start h-auto lg:h-[calc(100vh-56px)] overflow-y-visible lg:overflow-y-auto">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 p-3 sm:p-4 w-full h-auto sm:h-[350px] md:h-[450px]">
             {/* Thumbnails */}
-            <div className="w-[64px] flex flex-col gap-2 overflow-y-auto scrollbar-hide">
+            <div className="w-full sm:w-[64px] flex sm:flex-col gap-2 overflow-x-auto sm:overflow-y-auto scrollbar-hide">
               {images.map((img, index) => (
                 <div 
                   key={index} 
                   onMouseEnter={() => setSelectedImage(index)}
-                  className={`w-[64px] h-[64px] p-1 border cursor-pointer ${selectedImage === index ? 'border-flipkart-blue' : 'border-[#f0f0f0] hover:border-flipkart-grey'}`}
+                  onClick={() => setSelectedImage(index)}
+                  className={`w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] p-1 border cursor-pointer shrink-0 ${selectedImage === index ? 'border-flipkart-blue' : 'border-[#f0f0f0] hover:border-flipkart-grey'}`}
                 >
                   <img src={img} alt="Thumbnail" className="w-full h-full object-contain" />
                 </div>
@@ -102,17 +103,17 @@ function ProductDetail() {
             </div>
             
             {/* Main Image */}
-            <div className="flex-1 flex items-center justify-center border border-[#f0f0f0] p-4 relative">
+            <div className="flex-1 flex items-center justify-center border border-[#f0f0f0] p-3 sm:p-4 relative min-h-[250px] sm:min-h-0">
               <img src={images[selectedImage]} alt={product.name} className="max-w-full max-h-full object-contain" />
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex w-full gap-2 px-6 mt-4">
+          <div className="flex w-full gap-2 px-3 sm:px-6 mt-3 sm:mt-4">
              <button 
                onClick={() => handleAction(false)}
                disabled={addingToCart || product.stock === 0}
-               className="flex-1 py-[18px] bg-flipkart-yellow hover:bg-[#d69600] transition-colors text-white font-bold text-[16px] rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] flex items-center justify-center gap-2"
+               className="flex-1 py-3.5 sm:py-[18px] bg-flipkart-yellow hover:bg-[#d69600] transition-colors text-white font-bold text-[13px] sm:text-[16px] rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] flex items-center justify-center gap-2"
              >
                <svg className="w-4 h-4" fill="white" viewBox="0 0 16 16">
                   <path d="M15.32 2.405H4.887C3 2.405 2.46.805 2.46.805L2.257.21C2.208.085 2.083 0 1.946 0H.336C.1 0-.064.24.024.46l.644 1.945L3.11 9.767c.047.237.248.402.49.402h9.522c.26 0 .484-.183.528-.44l1.83-7.5c.032-.132.002-.27-.08-.372-.08-.104-.21-.157-.34-.148zM5.336 12.672c-1.1 0-1.996.896-1.996 1.996 0 1.1.896 1.996 1.996 1.996 1.1 0 1.996-.896 1.996-1.996 0-1.1-.896-1.996-1.996-1.996zm7.252 0c-1.1 0-1.996.896-1.996 1.996 0 1.1.896 1.996 1.996 1.996 1.1 0 1.996-.896 1.996-1.996 0-1.1-.896-1.996-1.996-1.996z" />
@@ -122,7 +123,7 @@ function ProductDetail() {
              <button 
                onClick={() => handleAction(true)}
                disabled={addingToCart || product.stock === 0}
-               className="flex-1 py-[18px] bg-flipkart-orange hover:bg-[#f65a0b] transition-colors text-white font-bold text-[16px] rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] flex items-center justify-center gap-2"
+               className="flex-1 py-3.5 sm:py-[18px] bg-flipkart-orange hover:bg-[#f65a0b] transition-colors text-white font-bold text-[13px] sm:text-[16px] rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] flex items-center justify-center gap-2"
              >
                <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 24 24">
                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L12 12.586l5.293-5.293a1 1 0 111.414 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414z" clipRule="evenodd"/>
@@ -133,10 +134,10 @@ function ProductDetail() {
         </div>
 
         {/* Right Column: Product Details */}
-        <div className="w-full md:w-[60%] p-6 md:p-8">
+        <div className="w-full md:w-[60%] p-4 sm:p-6 md:p-8">
           
           {/* Breadcrumbs */}
-          <div className="flex items-center text-[12px] text-flipkart-grey mb-2 font-medium">
+          <div className="flex items-center text-[11px] sm:text-[12px] text-flipkart-grey mb-2 font-medium overflow-x-auto whitespace-nowrap">
             <Link to="/" className="hover:text-flipkart-blue">Home</Link>
             <span className="mx-2">›</span>
             <span>{product.category?.name || 'Category'}</span>
@@ -145,7 +146,7 @@ function ProductDetail() {
           </div>
 
           {/* Title & Brand */}
-          <h1 className="text-[18px] text-flipkart-dark leading-relaxed mb-2">
+          <h1 className="text-[16px] sm:text-[18px] text-flipkart-dark leading-relaxed mb-2">
             {product.name}
           </h1>
 
@@ -164,15 +165,15 @@ function ProductDetail() {
             </div>
           )}
 
-          <div className="text-[14px] text-flipkart-green font-medium mb-2">Extra ₹{product.discountPercent}% off</div>
+          <div className="text-[13px] sm:text-[14px] text-flipkart-green font-medium mb-2">Extra ₹{product.discountPercent}% off</div>
 
           {/* Pricing */}
-          <div className="flex items-baseline gap-3 mb-2">
-            <span className="text-[28px] font-medium text-flipkart-dark">₹{price.toLocaleString()}</span>
+          <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mb-2">
+            <span className="text-[24px] sm:text-[28px] font-medium text-flipkart-dark">₹{price.toLocaleString()}</span>
             {originalPrice && originalPrice > price && (
               <>
-                <span className="text-[16px] text-flipkart-grey line-through">₹{originalPrice.toLocaleString()}</span>
-                <span className="text-[16px] text-flipkart-green font-bold">{product.discountPercent}% off</span>
+                <span className="text-[14px] sm:text-[16px] text-flipkart-grey line-through">₹{originalPrice.toLocaleString()}</span>
+                <span className="text-[14px] sm:text-[16px] text-flipkart-green font-bold">{product.discountPercent}% off</span>
               </>
             )}
           </div>
@@ -199,8 +200,8 @@ function ProductDetail() {
           </div>
 
           {/* Specifications Table styled as grid */}
-          <div className="border border-[#f0f0f0] rounded-sm p-6 mt-8">
-            <h2 className="text-[18px] font-medium text-flipkart-dark mb-4">Specifications</h2>
+          <div className="border border-[#f0f0f0] rounded-sm p-4 sm:p-6 mt-6 sm:mt-8">
+            <h2 className="text-[17px] sm:text-[18px] font-medium text-flipkart-dark mb-4">Specifications</h2>
             <div className="flex flex-col">
               <div className="text-[16px] font-medium text-flipkart-dark border-b border-[#f0f0f0] pb-3 mb-3">General</div>
               <div className="grid grid-cols-1 md:grid-cols-[30%_1fr] gap-4">
@@ -222,9 +223,9 @@ function ProductDetail() {
 
           {/* Description */}
           {product.description && (
-             <div className="mt-8 border border-[#f0f0f0] rounded-sm p-6">
-                <h2 className="text-[18px] font-medium text-flipkart-dark mb-4">Product Description</h2>
-                <div className="text-[14px] text-flipkart-dark leading-[1.8]">
+             <div className="mt-6 sm:mt-8 border border-[#f0f0f0] rounded-sm p-4 sm:p-6">
+               <h2 className="text-[17px] sm:text-[18px] font-medium text-flipkart-dark mb-4">Product Description</h2>
+               <div className="text-[13px] sm:text-[14px] text-flipkart-dark leading-[1.8]">
                   {product.description}
                 </div>
              </div>

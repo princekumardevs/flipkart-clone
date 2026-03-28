@@ -6,14 +6,14 @@ function ImageCarousel({ images = [] }) {
   const displayImages = images.length > 0 ? images : ['https://picsum.photos/400/400'];
 
   return (
-    <div className="flex flex-col-reverse md:flex-row gap-3">
+    <div className="flex flex-col-reverse md:flex-row gap-2 sm:gap-3">
       {/* Thumbnails */}
-      <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:max-h-[400px]">
+      <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:max-h-[400px] pb-1 md:pb-0">
         {displayImages.map((img, index) => (
           <button
             key={index}
             onClick={() => setSelectedIndex(index)}
-            className={`shrink-0 w-16 h-16 rounded border-2 overflow-hidden transition-colors cursor-pointer ${
+            className={`shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded border-2 overflow-hidden transition-colors cursor-pointer ${
               selectedIndex === index ? 'border-flipkart-blue' : 'border-[#e0e0e0] hover:border-[#c0c0c0]'
             }`}
           >
@@ -27,11 +27,11 @@ function ImageCarousel({ images = [] }) {
       </div>
 
       {/* Main Image */}
-      <div className="flex-1 flex items-center justify-center bg-white rounded border border-[#f0f0f0] min-h-[300px] md:min-h-[400px] p-4">
+      <div className="flex-1 flex items-center justify-center bg-white rounded border border-[#f0f0f0] min-h-[220px] sm:min-h-[300px] md:min-h-[400px] p-3 sm:p-4">
         <img
           src={displayImages[selectedIndex]}
           alt="Product"
-          className="max-w-full max-h-[350px] object-contain transition-opacity"
+          className="max-w-full max-h-[260px] sm:max-h-[350px] object-contain transition-opacity"
         />
       </div>
     </div>

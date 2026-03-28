@@ -17,22 +17,22 @@ function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[calc(100vh-56px)] bg-flipkart-light py-8">
-      <div className="flex bg-white shadow-md rounded-sm overflow-hidden w-[850px] min-h-[528px]">
+    <div className="flex justify-center items-center min-h-[calc(100vh-56px)] bg-flipkart-light py-4 sm:py-8 px-2 sm:px-4">
+      <div className="flex flex-col md:flex-row bg-white shadow-md rounded-sm overflow-hidden w-full max-w-[850px] min-h-[528px]">
         
         {/* Left Side Info */}
-        <div className="bg-flipkart-blue w-[40%] p-10 flex flex-col justify-between text-white relative bg-[url('https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/login_img_c4a81e.png')] bg-no-repeat bg-position-[center_bottom_100px]">
+        <div className="bg-flipkart-blue w-full md:w-[40%] p-6 sm:p-8 md:p-10 flex flex-col justify-between text-white relative bg-[url('https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/login_img_c4a81e.png')] bg-no-repeat bg-position-[center_bottom_30px] md:bg-position-[center_bottom_100px] min-h-[180px] md:min-h-0">
           <div>
-            <h2 className="text-[28px] font-medium mb-4">Login</h2>
-            <p className="text-[18px] text-[#dbdbdb] leading-relaxed">
+            <h2 className="text-[24px] sm:text-[28px] font-medium mb-3 sm:mb-4">Login</h2>
+            <p className="text-[15px] sm:text-[18px] text-[#dbdbdb] leading-relaxed max-w-[32ch]">
               Get access to your Orders, Wishlist and Recommendations
             </p>
           </div>
         </div>
 
         {/* Right Side Form */}
-        <div className="w-[60%] p-10 px-12 pb-6 relative flex flex-col">
-          <form className="flex-1 mt-6" onSubmit={handleSubmit}>
+        <div className="w-full md:w-[60%] p-5 sm:p-8 md:p-10 md:px-12 pb-6 relative flex flex-col">
+          <form className="flex-1 mt-1 sm:mt-3 md:mt-6" onSubmit={handleSubmit}>
             <div className="relative mb-6">
               <input
                 type="email"
@@ -73,7 +73,7 @@ function Login() {
             </button>
             
             <div className="mb-4 p-4 bg-[#f4f8ff] border border-flipkart-blue/20 rounded-sm flex justify-between items-center">
-              <div className="text-[13px] text-flipkart-dark">
+              <div className="text-[12px] sm:text-[13px] text-flipkart-dark">
                 <span className="font-bold block mb-1">Instant Test Account</span>
                 test@flipkart.com / testpassword
               </div>
@@ -91,7 +91,7 @@ function Login() {
             </div>
           </form>
 
-          <div className="text-center mt-auto pt-8">
+          <div className="text-center mt-auto pt-6 sm:pt-8">
             <Link to="/signup" className="text-flipkart-blue text-[14px] font-medium cursor-pointer">
               New to Flipkart? Create an account
             </Link>

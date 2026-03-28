@@ -157,20 +157,20 @@ function Checkout() {
   const InputClass = (name) => `w-full px-4 py-[14px] border ${errors[name] ? 'border-red-500 bg-red-50' : 'border-[#e0e0e0]'} rounded-sm text-[16px] bg-white outline-none focus:border-flipkart-blue transition-colors`;
 
   return (
-    <div className="min-h-[calc(100vh-56px)] bg-flipkart-light pt-8 px-2 pb-8">
-      <div className="max-w-[1248px] mx-auto flex flex-col lg:flex-row gap-4">
+    <div className="min-h-[calc(100vh-56px)] bg-flipkart-light pt-4 sm:pt-8 px-2 sm:px-3 pb-6 sm:pb-8">
+      <div className="max-w-[1248px] mx-auto flex flex-col lg:flex-row gap-3 sm:gap-4">
         
         {/* Left: Checkout Steps */}
         <div className="flex-1 space-y-4">
           
           {/* Step 1 */}
           <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)]">
-            <div className="px-6 py-4 flex items-center justify-between border-b border-[#f0f0f0]">
-               <h2 className="text-[16px] font-medium text-flipkart-dark uppercase flex items-center gap-4">
+            <div className="px-3 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#f0f0f0] gap-2 sm:gap-0">
+               <h2 className="text-[14px] sm:text-[16px] font-medium text-flipkart-dark uppercase flex items-center gap-3 sm:gap-4">
                  <span className="bg-[#f0f0f0] text-flipkart-blue w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-medium">1</span>
                  Login
                </h2>
-               <div className="text-[14px] font-medium text-flipkart-dark flex items-center gap-2">
+               <div className="text-[13px] sm:text-[14px] font-medium text-flipkart-dark flex items-center gap-2 break-words">
                  {user ? `${user.firstName} ${user.lastName}` : 'Guest User'} <svg className="w-4 h-4 text-flipkart-blue" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
                </div>
             </div>
@@ -178,32 +178,32 @@ function Checkout() {
 
           {/* Step 2 */}
           <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)]">
-            <div className="px-6 py-4 bg-flipkart-blue text-white flex items-center justify-between">
-               <h2 className="text-[16px] font-medium uppercase flex items-center gap-4">
+            <div className="px-3 sm:px-6 py-4 bg-flipkart-blue text-white flex items-center justify-between">
+               <h2 className="text-[14px] sm:text-[16px] font-medium uppercase flex items-center gap-3 sm:gap-4">
                  <span className="bg-white text-flipkart-blue w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-medium">2</span>
                  Delivery Address
                </h2>
             </div>
-            <div className="p-6 bg-[#f5faff]">
+            <div className="p-3 sm:p-6 bg-[#f5faff]">
               
               {!showNewAddressForm && addresses.length > 0 && (
                 <div className="mb-6 space-y-4">
                   {addresses.map((addr) => (
-                    <div key={addr.id} className={`p-4 border bg-white cursor-pointer ${selectedAddress?.id === addr.id ? 'border-flipkart-blue bg-[#f4f8ff]' : 'border-[#e0e0e0] hover:border-flipkart-blue'}`} onClick={() => setSelectedAddress(addr)}>
-                      <div className="flex items-start gap-4">
+                    <div key={addr.id} className={`p-3 sm:p-4 border bg-white cursor-pointer ${selectedAddress?.id === addr.id ? 'border-flipkart-blue bg-[#f4f8ff]' : 'border-[#e0e0e0] hover:border-flipkart-blue'}`} onClick={() => setSelectedAddress(addr)}>
+                      <div className="flex items-start gap-3 sm:gap-4">
                         <input type="radio" checked={selectedAddress?.id === addr.id} readOnly className="mt-1" />
                         <div className="flex-1">
-                          <div className="flex items-center gap-4 mb-2">
-                            <span className="font-medium text-[14px] text-flipkart-dark">{addr.fullName}</span>
-                            <span className="font-medium text-[14px] text-flipkart-dark">{addr.phone}</span>
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 mb-2">
+                            <span className="font-medium text-[13px] sm:text-[14px] text-flipkart-dark">{addr.fullName}</span>
+                            <span className="font-medium text-[13px] sm:text-[14px] text-flipkart-dark">{addr.phone}</span>
                           </div>
-                          <p className="text-[14px] text-flipkart-dark">{addr.addressLine1}{addr.addressLine2 ? `, ${addr.addressLine2}` : ''}, {addr.city}, {addr.state} - <span className="font-medium">{addr.pincode}</span></p>
+                          <p className="text-[13px] sm:text-[14px] text-flipkart-dark break-words">{addr.addressLine1}{addr.addressLine2 ? `, ${addr.addressLine2}` : ''}, {addr.city}, {addr.state} - <span className="font-medium">{addr.pincode}</span></p>
                           
                           {selectedAddress?.id === addr.id && (
                             <button 
                               onClick={handleDeliverHere}
                               disabled={placingOrder}
-                              className="mt-4 bg-flipkart-orange hover:bg-[#f65a0b] text-white px-10 py-3 rounded-sm font-medium text-[14px] shadow-sm uppercase tracking-wide transition-colors disabled:opacity-60"
+                              className="mt-4 bg-flipkart-orange hover:bg-[#f65a0b] text-white w-full sm:w-auto px-6 sm:px-10 py-3 rounded-sm font-medium text-[13px] sm:text-[14px] shadow-sm uppercase tracking-wide transition-colors disabled:opacity-60"
                             >
                               {placingOrder ? 'Processing...' : 'Deliver Here'}
                             </button>
@@ -220,7 +220,7 @@ function Checkout() {
               )}
 
               {showNewAddressForm && (
-                <form onSubmit={handleSubmit} className="bg-white p-6 border border-[#f0f0f0] shadow-sm max-w-[800px]">
+                <form onSubmit={handleSubmit} className="bg-white p-3 sm:p-6 border border-[#f0f0f0] shadow-sm max-w-[800px]">
                   <h3 className="text-[14px] text-flipkart-blue font-medium uppercase tracking-wide mb-6">Add a new address</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -260,11 +260,11 @@ function Checkout() {
                     </div>
                   </div>
 
-                  <div className="flex justify-start items-center gap-4">
+                  <div className="flex flex-col sm:flex-row justify-start sm:items-center gap-3 sm:gap-4">
                     <button 
                       type="submit" 
                       disabled={savingAddress || placingOrder}
-                      className="bg-flipkart-orange hover:bg-[#f65a0b] text-white px-10 py-3 rounded-sm font-medium text-[14px] shadow-sm uppercase tracking-wide transition-colors disabled:opacity-60"
+                      className="bg-flipkart-orange hover:bg-[#f65a0b] text-white w-full sm:w-auto px-6 sm:px-10 py-3 rounded-sm font-medium text-[13px] sm:text-[14px] shadow-sm uppercase tracking-wide transition-colors disabled:opacity-60"
                     >
                       {savingAddress || placingOrder ? 'Processing...' : 'Save and Deliver Here'}
                     </button>
@@ -286,7 +286,7 @@ function Checkout() {
         </div>
 
         {/* Right: Price Details */}
-        <div className="w-full lg:w-[350px] shrink-0 sticky top-[72px] self-start">
+        <div className="w-full lg:w-[350px] shrink-0 lg:sticky lg:top-[72px] self-start">
            <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] pb-4">
              <div className="px-6 py-4 border-b border-[#f0f0f0]">
                 <h3 className="text-[16px] text-flipkart-grey font-medium uppercase tracking-wide">Price Details</h3>

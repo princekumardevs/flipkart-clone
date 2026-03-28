@@ -41,7 +41,7 @@ function OrderSuccess() {
 
   if (loading) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-12">
+      <div className="max-w-3xl mx-auto px-3 sm:px-4 py-8 sm:py-12">
         <div className="bg-white rounded shadow-sm p-8 animate-pulse text-center">
           <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4" />
           <div className="h-6 bg-gray-200 rounded w-64 mx-auto mb-3" />
@@ -53,7 +53,7 @@ function OrderSuccess() {
 
   if (!order) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-12 text-center">
+      <div className="max-w-3xl mx-auto px-3 sm:px-4 py-8 sm:py-12 text-center">
         <p className="text-lg text-[#878787]">Order not found</p>
         <button
           onClick={() => navigate('/')}
@@ -66,34 +66,34 @@ function OrderSuccess() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
       {/* Success Banner */}
-      <div className="bg-white rounded shadow-sm p-8 text-center mb-4">
-        <div className="w-20 h-20 bg-[#388e3c] rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+      <div className="bg-white rounded shadow-sm p-5 sm:p-8 text-center mb-4">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#388e3c] rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-[#212121] mb-2">Order Placed Successfully!</h1>
-        <p className="text-base text-[#878787] mb-1">Thank you for your order</p>
-        <p className="text-sm text-[#2874f0] font-semibold">
-          Order Number: <span className="text-lg">{order.orderNumber}</span>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#212121] mb-2">Order Placed Successfully!</h1>
+        <p className="text-[14px] sm:text-base text-[#878787] mb-1">Thank you for your order</p>
+        <p className="text-[13px] sm:text-sm text-[#2874f0] font-semibold break-all">
+          Order Number: <span className="text-base sm:text-lg">{order.orderNumber}</span>
         </p>
       </div>
 
       {/* Order Details */}
       <div className="bg-white rounded shadow-sm mb-4">
-        <h3 className="text-base font-semibold text-[#212121] px-6 py-3 border-b border-[#f0f0f0]">
+        <h3 className="text-base font-semibold text-[#212121] px-4 sm:px-6 py-3 border-b border-[#f0f0f0]">
           Order Details
         </h3>
 
         {/* Items */}
         {order.items.map((item) => (
-          <div key={item.id} className="flex gap-4 px-6 py-4 border-b border-[#f0f0f0]">
+          <div key={item.id} className="flex gap-3 sm:gap-4 px-4 sm:px-6 py-4 border-b border-[#f0f0f0]">
             <img
               src={item.product.images?.[0] || 'https://picsum.photos/80/80'}
               alt={item.product.name}
-              className="w-16 h-16 object-contain rounded"
+              className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded"
             />
             <div className="flex-1">
               <p className="text-sm font-medium text-[#212121]">{item.product.name}</p>
@@ -106,7 +106,7 @@ function OrderSuccess() {
         ))}
 
         {/* Price Summary */}
-        <div className="px-6 py-4 space-y-2">
+        <div className="px-4 sm:px-6 py-4 space-y-2">
           <div className="flex justify-between text-sm">
             <span>Subtotal</span>
             <span>₹{parseFloat(order.subtotal).toLocaleString()}</span>
@@ -140,7 +140,7 @@ function OrderSuccess() {
           </p>
           <p className="text-sm text-[#212121] mt-1">Phone: {order.phone}</p>
         </div>
-        <div className="px-6 py-3 bg-[#f1f3f6] border-t border-[#f0f0f0]">
+        <div className="px-4 sm:px-6 py-3 bg-[#f1f3f6] border-t border-[#f0f0f0]">
           <div className="flex items-center gap-2">
             <svg className="w-5 h-5 text-[#2874f0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -156,7 +156,7 @@ function OrderSuccess() {
       <div className="text-center">
         <button
           onClick={() => navigate('/')}
-          className="px-12 py-3 bg-[#2874f0] text-white font-semibold rounded-sm hover:bg-[#1a5bc4] transition-colors cursor-pointer shadow-md"
+          className="w-full sm:w-auto px-8 sm:px-12 py-3 bg-[#2874f0] text-white font-semibold rounded-sm hover:bg-[#1a5bc4] transition-colors cursor-pointer shadow-md"
           id="continue-shopping-btn"
         >
           Continue Shopping

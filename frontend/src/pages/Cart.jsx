@@ -62,7 +62,7 @@ function Cart() {
   const finalAmount = totalAmount + deliveryCharges;
 
   if (loading) {
-     return <div className="min-h-screen bg-flipkart-lightlight pt-4 p-2"><div className="w-full h-[500px] bg-white animate-pulse"></div></div>;
+      return <div className="min-h-screen bg-flipkart-light pt-4 p-2"><div className="w-full h-[420px] sm:h-[500px] bg-white animate-pulse"></div></div>;
   }
 
   if (cartItems.length === 0) {
@@ -84,21 +84,21 @@ function Cart() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-56px)] bg-flipkart-light pt-8 px-2 pb-8">
-      <div className="max-w-[1248px] mx-auto flex flex-col lg:flex-row gap-4">
+    <div className="min-h-[calc(100vh-56px)] bg-flipkart-light pt-4 sm:pt-8 px-2 sm:px-3 pb-6 sm:pb-8">
+      <div className="max-w-[1248px] mx-auto flex flex-col lg:flex-row gap-3 sm:gap-4">
         
         {/* Left: Cart Items */}
         <div className="flex-1">
            <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] mb-4">
-              <div className="px-6 py-4 flex items-center justify-between border-b border-[#f0f0f0]">
-                <h2 className="text-[18px] font-medium text-flipkart-dark">Flipkart ({totalItems})</h2>
+              <div className="px-3 sm:px-6 py-4 flex items-center justify-between border-b border-[#f0f0f0]">
+                <h2 className="text-[16px] sm:text-[18px] font-medium text-flipkart-dark">Flipkart ({totalItems})</h2>
               </div>
               
               {cartItems.map((item) => (
-                <div key={item.id} className="p-6 border-b border-[#f0f0f0] flex flex-col md:flex-row gap-6 relative">
+                <div key={item.id} className="p-3 sm:p-6 border-b border-[#f0f0f0] flex flex-col md:flex-row gap-4 sm:gap-6 relative">
                   
                   {/* Image & Qty */}
-                  <div className="flex flex-col items-center gap-4 w-[112px] shrink-0">
+                  <div className="flex flex-row md:flex-col items-center gap-3 sm:gap-4 w-full md:w-[112px] shrink-0">
                     <div className="w-[112px] h-[112px] flex items-center justify-center">
                       <img src={item.product.images?.[0] || 'https://picsum.photos/112/112'} alt={item.product.name} className="max-w-full max-h-full object-contain" />
                     </div>
@@ -120,17 +120,17 @@ function Cart() {
 
                   {/* Info */}
                   <div className="flex-1 flex flex-col">
-                    <h3 className="text-[16px] text-flipkart-dark font-medium hover:text-flipkart-blue cursor-pointer inline-block w-fit">{item.product.name}</h3>
-                    <p className="text-[14px] text-flipkart-grey mt-1 mb-4">{item.product.brand || 'Generic'}</p>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[14px] text-flipkart-grey line-through">₹{item.product.originalPrice ? parseFloat(item.product.originalPrice).toLocaleString() : ''}</span>
-                      <span className="text-[18px] font-medium text-flipkart-dark">₹{parseFloat(item.product.price).toLocaleString()}</span>
-                      {discount > 0 && <span className="text-[14px] text-flipkart-green font-medium">{item.product.discountPercent}% Off</span>}
+                    <h3 className="text-[14px] sm:text-[16px] text-flipkart-dark font-medium hover:text-flipkart-blue cursor-pointer inline-block w-fit break-words">{item.product.name}</h3>
+                    <p className="text-[13px] sm:text-[14px] text-flipkart-grey mt-1 mb-3 sm:mb-4">{item.product.brand || 'Generic'}</p>
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className="text-[13px] sm:text-[14px] text-flipkart-grey line-through">₹{item.product.originalPrice ? parseFloat(item.product.originalPrice).toLocaleString() : ''}</span>
+                      <span className="text-[16px] sm:text-[18px] font-medium text-flipkart-dark">₹{parseFloat(item.product.price).toLocaleString()}</span>
+                      {discount > 0 && <span className="text-[12px] sm:text-[14px] text-flipkart-green font-medium">{item.product.discountPercent}% Off</span>}
                     </div>
                     
-                    <div className="mt-8 flex items-center gap-6">
-                      <button className="text-[16px] font-medium text-flipkart-dark hover:text-flipkart-blue">SAVE FOR LATER</button>
-                      <button onClick={() => removeItem(item.id)} className="text-[16px] font-medium text-flipkart-dark hover:text-flipkart-blue">REMOVE</button>
+                    <div className="mt-5 sm:mt-8 flex flex-wrap items-center gap-4 sm:gap-6">
+                      <button className="text-[14px] sm:text-[16px] font-medium text-flipkart-dark hover:text-flipkart-blue">SAVE FOR LATER</button>
+                      <button onClick={() => removeItem(item.id)} className="text-[14px] sm:text-[16px] font-medium text-flipkart-dark hover:text-flipkart-blue">REMOVE</button>
                     </div>
                   </div>
 
@@ -142,7 +142,7 @@ function Cart() {
               ))}
 
               {/* Place Order CTA */}
-              <div className="p-4 flex justify-end shadow-[0_-2px_10px_0_rgba(0,0,0,.1)] bg-white sticky bottom-0 z-10 w-full">
+              <div className="p-3 sm:p-4 flex justify-center sm:justify-end shadow-[0_-2px_10px_0_rgba(0,0,0,.1)] bg-white sticky bottom-0 z-10 w-full">
                 <button 
                   onClick={() => {
                     if (!user) {
@@ -152,7 +152,7 @@ function Cart() {
                       navigate('/checkout');
                     }
                   }}
-                  className="bg-flipkart-orange text-white px-[40px] py-[16px] rounded-sm font-medium text-[16px] shadow-sm uppercase tracking-wide"
+                  className="bg-flipkart-orange text-white w-full sm:w-auto px-6 sm:px-[40px] py-3.5 sm:py-[16px] rounded-sm font-medium text-[14px] sm:text-[16px] shadow-sm uppercase tracking-wide"
                 >
                   Place Order
                 </button>
@@ -162,7 +162,7 @@ function Cart() {
         </div>
 
         {/* Right: Price Details */}
-        <div className="w-full lg:w-[350px] shrink-0 sticky top-[72px] self-start">
+          <div className="w-full lg:w-[350px] shrink-0 lg:sticky lg:top-[72px] self-start">
            <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] pb-4">
              <div className="px-6 py-4 border-b border-[#f0f0f0]">
                 <h3 className="text-[16px] text-flipkart-grey font-medium uppercase tracking-wide">Price Details</h3>
