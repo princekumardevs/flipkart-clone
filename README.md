@@ -41,9 +41,8 @@ npm run dev
 # Runs on http://localhost:5173
 ```
 
-## Deployed Links
-- Frontend: [link]
-- Backend: [link]
+## Live Link
+- Link: https://flipkart.princedev.in/
 
 ## Database Schema
 - categories: product categories
@@ -53,7 +52,7 @@ npm run dev
 - order_items: individual items per order
 
 ## Assumptions
-- No login required — using localStorage UUID as session ID
-- Default logged in user assumed as per assignment spec
+- Guest checkout is enabled and uses localStorage UUID as session ID
+- Login/signup, wishlist, and order history are available as bonus features
 - Free delivery on orders above ₹499
-- Images from public placeholder APIs
+- Product images use public URLs with category-based fallback images for broken links
