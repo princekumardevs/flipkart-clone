@@ -7,7 +7,17 @@
     <title>frontend</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #f1f3f6;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid #e0e0e0; border-top-color: #2874f0; animation: spin 1s linear infinite;"></div>
+        <style>
+          @keyframes spin { 
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        </style>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

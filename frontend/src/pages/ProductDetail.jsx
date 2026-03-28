@@ -112,7 +112,7 @@ function ProductDetail() {
              <button 
                onClick={() => handleAction(false)}
                disabled={addingToCart || product.stock === 0}
-               className="flex-1 py-[18px] bg-flipkart-yellow text-white font-bold text-[16px] rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] flex items-center justify-center gap-2"
+               className="flex-1 py-[18px] bg-flipkart-yellow hover:bg-[#d69600] transition-colors text-white font-bold text-[16px] rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] flex items-center justify-center gap-2"
              >
                <svg className="w-4 h-4" fill="white" viewBox="0 0 16 16">
                   <path d="M15.32 2.405H4.887C3 2.405 2.46.805 2.46.805L2.257.21C2.208.085 2.083 0 1.946 0H.336C.1 0-.064.24.024.46l.644 1.945L3.11 9.767c.047.237.248.402.49.402h9.522c.26 0 .484-.183.528-.44l1.83-7.5c.032-.132.002-.27-.08-.372-.08-.104-.21-.157-.34-.148zM5.336 12.672c-1.1 0-1.996.896-1.996 1.996 0 1.1.896 1.996 1.996 1.996 1.1 0 1.996-.896 1.996-1.996 0-1.1-.896-1.996-1.996-1.996zm7.252 0c-1.1 0-1.996.896-1.996 1.996 0 1.1.896 1.996 1.996 1.996 1.1 0 1.996-.896 1.996-1.996 0-1.1-.896-1.996-1.996-1.996z" />
@@ -122,7 +122,7 @@ function ProductDetail() {
              <button 
                onClick={() => handleAction(true)}
                disabled={addingToCart || product.stock === 0}
-               className="flex-1 py-[18px] bg-flipkart-orange text-white font-bold text-[16px] rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] flex items-center justify-center gap-2"
+               className="flex-1 py-[18px] bg-flipkart-orange hover:bg-[#f65a0b] transition-colors text-white font-bold text-[16px] rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] flex items-center justify-center gap-2"
              >
                <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 24 24">
                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L12 12.586l5.293-5.293a1 1 0 111.414 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414z" clipRule="evenodd"/>

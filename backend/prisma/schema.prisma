@@ -17,6 +17,7 @@ model User {
   orders    Order[]
   cartItems CartItem[]
   wishlistItems WishlistItem[]
+  addresses Address[]
 
   @@map("users")
 }
@@ -114,4 +115,21 @@ model WishlistItem {
 
   @@unique([userId, productId])
   @@map("wishlist_items")
+}
+
+model Address {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @map("user_id")
+  fullName     String   @map("full_name") @db.VarChar(255)
+  phone        String   @db.VarChar(20)
+  addressLine1 String   @map("address_line1")
+  addressLine2 String?  @map("address_line2")
+  city         String   @db.VarChar(100)
+  state        String   @db.VarChar(100)
+  pincode      String   @db.VarChar(10)
+  isDefault    Boolean  @default(false) @map("is_default")
+  createdAt    DateTime @default(now()) @map("created_at")
+  user         User     @relation(fields: [userId], references: [id])
+
+  @@map("addresses")
 }

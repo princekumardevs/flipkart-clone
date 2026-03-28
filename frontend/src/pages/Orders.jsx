@@ -45,7 +45,7 @@ function Orders() {
             <h2 className="text-[18px] font-medium mb-4">You have no orders</h2>
             <button 
               onClick={() => navigate('/')}
-              className="bg-flipkart-orange text-white px-8 py-2.5 rounded-sm font-medium shadow-sm"
+              className="bg-flipkart-orange hover:bg-[#f65a0b] text-white px-8 py-2.5 rounded-sm font-medium shadow-sm transition-colors"
             >
               Start Shopping
             </button>

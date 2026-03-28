@@ -8,6 +8,7 @@ const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
 const authRoutes = require('./routes/auth');
 const wishlistRoutes = require('./routes/wishlist');
+const addressRoutes = require('./routes/addresses');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -24,6 +25,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/addresses', addressRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
