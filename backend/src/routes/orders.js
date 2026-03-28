@@ -3,7 +3,12 @@ const router = express.Router();
 const {
   placeOrder,
   getOrder,
+  getUserOrders,
 } = require('../controllers/orders.controller');
+const { protect } = require('../middleware/auth');
+
+// GET /api/orders
+router.get('/', protect, getUserOrders);
 
 // POST /api/orders
 router.post('/', placeOrder);

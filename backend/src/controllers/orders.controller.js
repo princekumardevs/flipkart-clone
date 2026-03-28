@@ -1,4 +1,5 @@
 const prisma = require('../lib/prisma');
+const jwt = require('jsonwebtoken');
 
 // POST /api/orders
 const placeOrder = async (req, res, next) => {
@@ -38,10 +39,20 @@ const placeOrder = async (req, res, next) => {
     const total = subtotal + deliveryCharge;
     const orderNumber = 'OD' + Date.now();
 
+    let userId = null;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+        userId = decoded.id;
+      } catch (error) {}
+    }
+
     // Create order with order items in a transaction
     const order = await prisma.$transaction(async (tx) => {
       const newOrder = await tx.order.create({
         data: {
+          userId,
           orderNumber,
           sessionId,
           fullName,
@@ -100,4 +111,21 @@ const getOrder = async (req, res, next) => {
   }
 };
 
-module.exports = { placeOrder, getOrder };
+// GET /api/orders/user
+const getUserOrders = async (req, res, next) => {
+  try {
+    const orders = await prisma.order.findMany({
+      where: { userId: req.user.id },
+      include: {
+        items: { include: { product: true } },
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    res.json({ success: true, data: orders });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { placeOrder, getOrder, getUserOrders };

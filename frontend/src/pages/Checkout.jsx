@@ -74,10 +74,13 @@ function Checkout() {
     setPlacingOrder(true);
     try {
       const sessionId = localStorage.getItem('sessionId');
+      const token = localStorage.getItem('token');
+      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+      
       const { data } = await api.post('/api/orders', {
         sessionId,
         ...formData
-      });
+      }, config);
       // Assuming cart context clears automatically or via another refetch
       toast.success('Order placed successfully!');
       navigate(`/order-success?order=${data.data.orderNumber}`);
