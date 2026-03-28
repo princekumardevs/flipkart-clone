@@ -96,13 +96,13 @@ function Checkout() {
   const finalAmount = totalAmount + deliveryCharges;
 
   if (loading) {
-     return <div className="min-h-[calc(100vh-56px)] bg-[#f1f3f6] pt-4 p-2"><div className="max-w-[1248px] mx-auto h-[500px] bg-white animate-pulse"></div></div>;
+     return <div className="min-h-[calc(100vh-56px)] bg-flipkart-light pt-4 p-2"><div className="max-w-[1248px] mx-auto h-[500px] bg-white animate-pulse"></div></div>;
   }
 
-  const InputClass = (name) => `w-full px-4 py-[14px] border ${errors[name] ? 'border-red-500 bg-red-50' : 'border-[#e0e0e0]'} rounded-sm text-[16px] bg-white outline-none focus:border-[#2874f0] transition-colors`;
+  const InputClass = (name) => `w-full px-4 py-[14px] border ${errors[name] ? 'border-red-500 bg-red-50' : 'border-[#e0e0e0]'} rounded-sm text-[16px] bg-white outline-none focus:border-flipkart-blue transition-colors`;
 
   return (
-    <div className="min-h-[calc(100vh-56px)] bg-[#f1f3f6] pt-8 px-2 pb-8">
+    <div className="min-h-[calc(100vh-56px)] bg-flipkart-light pt-8 px-2 pb-8">
       <div className="max-w-[1248px] mx-auto flex flex-col lg:flex-row gap-4">
         
         {/* Left: Checkout Steps */}
@@ -111,21 +111,21 @@ function Checkout() {
           {/* Step 1 */}
           <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)]">
             <div className="px-6 py-4 flex items-center justify-between border-b border-[#f0f0f0]">
-               <h2 className="text-[16px] font-medium text-[#212121] uppercase flex items-center gap-4">
-                 <span className="bg-[#f0f0f0] text-[#2874f0] w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-medium">1</span>
+               <h2 className="text-[16px] font-medium text-flipkart-dark uppercase flex items-center gap-4">
+                 <span className="bg-[#f0f0f0] text-flipkart-blue w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-medium">1</span>
                  Login
                </h2>
-               <div className="text-[14px] font-medium text-[#212121] flex items-center gap-2">
-                 Guest User <svg className="w-4 h-4 text-[#2874f0]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+               <div className="text-[14px] font-medium text-flipkart-dark flex items-center gap-2">
+                 Guest User <svg className="w-4 h-4 text-flipkart-blue" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
                </div>
             </div>
           </div>
 
           {/* Step 2 */}
           <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)]">
-            <div className="px-6 py-4 bg-[#2874f0] text-white flex items-center justify-between">
+            <div className="px-6 py-4 bg-flipkart-blue text-white flex items-center justify-between">
                <h2 className="text-[16px] font-medium uppercase flex items-center gap-4">
-                 <span className="bg-white text-[#2874f0] w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-medium">2</span>
+                 <span className="bg-white text-flipkart-blue w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-medium">2</span>
                  Delivery Address
                </h2>
             </div>
@@ -172,7 +172,7 @@ function Checkout() {
                   <button 
                     type="submit" 
                     disabled={placingOrder}
-                    className="bg-[#fb641b] text-white px-10 py-3 rounded-sm font-medium text-[16px] shadow-sm uppercase tracking-wide hover:-translate-y-[1px] transition-transform disabled:opacity-60"
+                    className="bg-flipkart-orange text-white px-10 py-3 rounded-sm font-medium text-[16px] shadow-sm uppercase tracking-wide hover:-translate-y-px transition-transform disabled:opacity-60"
                   >
                     {placingOrder ? 'Processing...' : 'Save and Deliver Here'}
                   </button>
@@ -187,32 +187,32 @@ function Checkout() {
         <div className="w-full lg:w-[350px] shrink-0 sticky top-[72px] self-start">
            <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] pb-4">
              <div className="px-6 py-4 border-b border-[#f0f0f0]">
-                <h3 className="text-[16px] text-[#878787] font-medium uppercase tracking-wide">Price Details</h3>
+                <h3 className="text-[16px] text-flipkart-grey font-medium uppercase tracking-wide">Price Details</h3>
              </div>
              <div className="px-6 box-border font-medium">
-               <div className="flex justify-between mt-5 text-[16px] text-[#212121]">
+               <div className="flex justify-between mt-5 text-[16px] text-flipkart-dark">
                  <span>Price ({totalItems} items)</span>
                  <span>₹{totalOriginal.toLocaleString()}</span>
                </div>
-               <div className="flex justify-between mt-5 text-[16px] text-[#212121]">
+               <div className="flex justify-between mt-5 text-[16px] text-flipkart-dark">
                  <span>Discount</span>
-                 <span className="text-[#388e3c]">− ₹{discount.toLocaleString()}</span>
+                 <span className="text-flipkart-green">− ₹{discount.toLocaleString()}</span>
                </div>
-               <div className="flex justify-between mt-5 text-[16px] text-[#212121]">
+               <div className="flex justify-between mt-5 text-[16px] text-flipkart-dark">
                  <span>Delivery Charges</span>
-                 <span className="text-[#388e3c]">{deliveryCharges === 0 ? 'Free' : `₹${deliveryCharges}`}</span>
+                 <span className="text-flipkart-green">{deliveryCharges === 0 ? 'Free' : `₹${deliveryCharges}`}</span>
                </div>
-               <div className="flex justify-between mt-5 pt-5 text-[18px] text-[#212121] font-bold border-t border-dashed border-[#e0e0e0]">
+               <div className="flex justify-between mt-5 pt-5 text-[18px] text-flipkart-dark font-bold border-t border-dashed border-[#e0e0e0]">
                  <span>Total Payable</span>
                  <span>₹{finalAmount.toLocaleString()}</span>
                </div>
-               <div className="text-[16px] text-[#388e3c] mt-5 font-medium tracking-tight">
+               <div className="text-[16px] text-flipkart-green mt-5 font-medium tracking-tight">
                  Your Total Savings on this order ₹{discount.toLocaleString()}
                </div>
              </div>
            </div>
            
-           <div className="mt-4 flex items-center justify-start gap-4 text-[#878787] px-4">
+           <div className="mt-4 flex items-center justify-start gap-4 text-flipkart-grey px-4">
              <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/shield_b33c0c.svg" className="w-[29px] h-[35px]" alt="Safe" />
              <div className="text-[13px] font-medium">Safe and Secure Payments.Easy returns.100% Authentic products.</div>
            </div>

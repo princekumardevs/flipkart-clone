@@ -47,7 +47,7 @@ function Home() {
   }, [fetchProducts]);
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6]">
+    <div className="min-h-screen bg-flipkart-light">
       <CategoryFilter
         categories={categories}
         selectedCategory={selectedCategory}
@@ -57,15 +57,15 @@ function Home() {
       <div className="max-w-[1248px] mx-auto px-2 lg:px-0">
         {searchQuery && (
           <div className="pt-4 pb-2 px-2">
-            <p className="text-[14px] text-[#878787] font-medium tracking-wide">
-              Showing results for "<span className="text-[#212121]">{searchQuery}</span>"
+            <p className="text-[14px] text-flipkart-grey font-medium tracking-wide">
+              Showing results for "<span className="text-flipkart-dark">{searchQuery}</span>"
             </p>
           </div>
         )}
 
         <div className="bg-white mt-4 mb-8 shadow-[0_1px_1px_0_rgba(0,0,0,.16)] rounded-sm overflow-hidden">
           <div className="px-6 py-5 border-b border-[#f0f0f0]">
-            <h2 className="text-[22px] font-bold text-[#212121]">
+            <h2 className="text-[22px] font-bold text-flipkart-dark">
               {searchQuery ? `Search Results` : (selectedCategory ? `Featured Collection` : `Best of Electronics & Home`)}
             </h2>
           </div>
@@ -85,8 +85,8 @@ function Home() {
                <svg className="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                </svg>
-               <p className="text-[#212121] text-[18px] font-medium">Sorry, no products found!</p>
-               <p className="text-[#878787] text-[14px] mt-1">Please check the spelling or try searching for something else</p>
+               <p className="text-flipkart-dark text-[18px] font-medium">Sorry, no products found!</p>
+               <p className="text-flipkart-grey text-[14px] mt-1">Please check the spelling or try searching for something else</p>
             </div>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 border-l border-t border-[#f0f0f0]">

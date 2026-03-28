@@ -1,0 +1,37 @@
+const jwt = require('jsonwebtoken');
+const prisma = require('../lib/prisma');
+
+const protect = async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    try {
+      // Get token from header
+      token = req.headers.authorization.split(' ')[1];
+
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+
+      // Get user from the token
+      req.user = await prisma.user.findUnique({
+        where: { id: decoded.id },
+        select: { id: true }
+      });
+
+      if (!req.user) {
+        return res.status(401).json({ error: 'Not authorized, user not found' });
+      }
+
+      next();
+    } catch (error) {
+      res.status(401).json({ error: 'Not authorized, token failed' });
+    }
+  } else {
+    res.status(401).json({ error: 'Not authorized, no token' });
+  }
+};
+
+module.exports = { protect };
