@@ -6,7 +6,7 @@ const getCart = async (req, res, next) => {
     const { sessionId } = req.params;
     const cartItems = await prisma.cartItem.findMany({
       where: { sessionId },
-      include: { product: true },
+      include: { product: { include: { category: true } } },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -36,7 +36,7 @@ const addToCart = async (req, res, next) => {
       cartItem = await prisma.cartItem.update({
         where: { id: existing.id },
         data: { quantity: existing.quantity + parseInt(quantity) },
-        include: { product: true },
+        include: { product: { include: { category: true } } },
       });
     } else {
       // Create new cart item
@@ -46,7 +46,7 @@ const addToCart = async (req, res, next) => {
           productId: parseInt(productId),
           quantity: parseInt(quantity),
         },
-        include: { product: true },
+        include: { product: { include: { category: true } } },
       });
     }
 
@@ -69,7 +69,7 @@ const updateCartItem = async (req, res, next) => {
     const cartItem = await prisma.cartItem.update({
       where: { id: parseInt(id) },
       data: { quantity: parseInt(quantity) },
-      include: { product: true },
+      include: { product: { include: { category: true } } },
     });
 
     res.json({ success: true, data: cartItem });

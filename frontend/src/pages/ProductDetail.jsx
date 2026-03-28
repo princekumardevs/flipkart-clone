@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 import { useCart } from '../context/CartContext';
+import { getCategoryFallbackImage, getProductImage, handleProductImageError } from '../lib/productImages';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -79,7 +80,8 @@ function ProductDetail() {
 
   const price = parseFloat(product.price);
   const originalPrice = product.originalPrice ? parseFloat(product.originalPrice) : null;
-  const images = product.images?.length > 0 ? product.images : ['https://picsum.photos/400/400'];
+  const images = product.images?.length > 0 ? product.images : [getProductImage(product)];
+  const categoryFallback = getCategoryFallbackImage(product?.category?.name);
 
   return (
     <div className="min-h-screen bg-flipkart-light pt-3 sm:pt-4 px-2 sm:px-[10px] pb-6 sm:pb-8">
@@ -97,14 +99,24 @@ function ProductDetail() {
                   onClick={() => setSelectedImage(index)}
                   className={`w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] p-1 border cursor-pointer shrink-0 ${selectedImage === index ? 'border-flipkart-blue' : 'border-[#f0f0f0] hover:border-flipkart-grey'}`}
                 >
-                  <img src={img} alt="Thumbnail" className="w-full h-full object-contain" />
+                  <img
+                    src={img}
+                    alt="Thumbnail"
+                    className="w-full h-full object-contain"
+                    onError={(event) => handleProductImageError(event, product?.category?.name)}
+                  />
                 </div>
               ))}
             </div>
             
             {/* Main Image */}
             <div className="flex-1 flex items-center justify-center border border-[#f0f0f0] p-3 sm:p-4 relative min-h-[250px] sm:min-h-0">
-              <img src={images[selectedImage]} alt={product.name} className="max-w-full max-h-full object-contain" />
+              <img
+                src={images[selectedImage] || categoryFallback}
+                alt={product.name}
+                className="max-w-full max-h-full object-contain"
+                onError={(event) => handleProductImageError(event, product?.category?.name)}
+              />
             </div>
           </div>
 

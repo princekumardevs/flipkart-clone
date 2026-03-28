@@ -47,7 +47,9 @@ function Home() {
   }, [fetchProducts]);
 
   const selectedCategoryName =
-    categories.find((category) => category.id === selectedCategory)?.name || null;
+    selectedCategory == null
+      ? null
+      : categories.find((category) => String(category.id) === String(selectedCategory))?.name || null;
 
   return (
     <div className="min-h-screen bg-flipkart-light">

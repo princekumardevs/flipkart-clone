@@ -4,6 +4,7 @@ import api from '../lib/api';
 import toast from 'react-hot-toast';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { getProductImage, handleProductImageError } from '../lib/productImages';
 
 function Cart() {
   const { user } = useAuth();
@@ -100,7 +101,12 @@ function Cart() {
                   {/* Image & Qty */}
                   <div className="flex flex-row md:flex-col items-center gap-3 sm:gap-4 w-full md:w-[112px] shrink-0">
                     <div className="w-[112px] h-[112px] flex items-center justify-center">
-                      <img src={item.product.images?.[0] || 'https://picsum.photos/112/112'} alt={item.product.name} className="max-w-full max-h-full object-contain" />
+                      <img
+                        src={getProductImage(item.product)}
+                        alt={item.product.name}
+                        className="max-w-full max-h-full object-contain"
+                        onError={(event) => handleProductImageError(event, item.product?.category?.name)}
+                      />
                     </div>
                     <div className="flex items-center gap-2">
                        <button 

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
+import { getProductImage, handleProductImageError } from '../lib/productImages';
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
@@ -14,9 +15,10 @@ function ProductCard({ product }) {
     >
       <div className="w-full h-[120px] sm:h-[150px] md:h-[200px] flex items-center justify-center mb-3 sm:mb-4 relative pointer-events-none">
         <img
-           src={product.images?.[0] || 'https://picsum.photos/400/400'}
+            src={getProductImage(product)}
            alt={product.name}
            className="max-h-full max-w-full object-contain"
+            onError={(event) => handleProductImageError(event, product?.category?.name)}
         />
         {product.discountPercent > 0 && (
            <span className="absolute top-0 right-0 bg-flipkart-green text-white text-[10px] sm:text-[11px] font-bold px-1 py-[2px] rounded-sm">

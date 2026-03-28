@@ -74,7 +74,7 @@ const placeOrder = async (req, res, next) => {
           },
         },
         include: {
-          items: { include: { product: true } },
+          items: { include: { product: { include: { category: true } } } },
         },
       });
 
@@ -97,7 +97,7 @@ const getOrder = async (req, res, next) => {
     const order = await prisma.order.findUnique({
       where: { orderNumber },
       include: {
-        items: { include: { product: true } },
+        items: { include: { product: { include: { category: true } } } },
       },
     });
 
@@ -117,7 +117,7 @@ const getUserOrders = async (req, res, next) => {
     const orders = await prisma.order.findMany({
       where: { userId: req.user.id },
       include: {
-        items: { include: { product: true } },
+        items: { include: { product: { include: { category: true } } } },
       },
       orderBy: { createdAt: 'desc' }
     });

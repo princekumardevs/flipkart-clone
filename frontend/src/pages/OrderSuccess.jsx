@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
+import { getProductImage, handleProductImageError } from '../lib/productImages';
 
 function OrderSuccess() {
   const [searchParams] = useSearchParams();
@@ -91,9 +92,10 @@ function OrderSuccess() {
         {order.items.map((item) => (
           <div key={item.id} className="flex gap-3 sm:gap-4 px-4 sm:px-6 py-4 border-b border-[#f0f0f0]">
             <img
-              src={item.product.images?.[0] || 'https://picsum.photos/80/80'}
+              src={getProductImage(item.product)}
               alt={item.product.name}
               className="w-14 h-14 sm:w-16 sm:h-16 object-contain rounded"
+              onError={(event) => handleProductImageError(event, item.product?.category?.name)}
             />
             <div className="flex-1">
               <p className="text-sm font-medium text-[#212121]">{item.product.name}</p>

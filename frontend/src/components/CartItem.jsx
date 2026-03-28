@@ -2,6 +2,7 @@ import toast from 'react-hot-toast';
 import api from '../lib/api';
 import { getSessionId } from '../lib/session';
 import { useCart } from '../context/CartContext';
+import { getProductImage, handleProductImageError } from '../lib/productImages';
 
 function CartItem({ item, onUpdate }) {
   const { refreshCartCount } = useCart();
@@ -37,9 +38,10 @@ function CartItem({ item, onUpdate }) {
       {/* Image */}
       <div className="shrink-0 w-28 h-28 sm:w-32 sm:h-32 p-3 flex items-center justify-center">
         <img
-          src={product.images?.[0] || 'https://picsum.photos/200/200'}
+          src={getProductImage(product)}
           alt={product.name}
           className="w-full h-full object-contain"
+          onError={(event) => handleProductImageError(event, product?.category?.name)}
         />
       </div>
 

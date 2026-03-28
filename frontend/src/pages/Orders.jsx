@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import { useAuth } from '../context/AuthContext';
+import { getProductImage, handleProductImageError } from '../lib/productImages';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -67,7 +68,12 @@ function Orders() {
                 {order.items.map((item) => (
                   <div key={item.id} className="flex gap-4 items-start sm:items-center border-b border-[#f0f0f0] last:border-0 pb-4 last:pb-0">
                     <div className="w-[80px] h-[80px] shrink-0 flex items-center justify-center cursor-pointer" onClick={() => navigate(`/product/${item.product.id}`)}>
-                      <img src={item.product.images?.[0] || 'https://picsum.photos/100/100'} alt={item.product.name} className="max-w-full max-h-full object-contain" />
+                      <img
+                        src={getProductImage(item.product)}
+                        alt={item.product.name}
+                        className="max-w-full max-h-full object-contain"
+                        onError={(event) => handleProductImageError(event, item.product?.category?.name)}
+                      />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-[14px] font-medium text-flipkart-dark hover:text-flipkart-blue cursor-pointer line-clamp-1" onClick={() => navigate(`/product/${item.product.id}`)}>
