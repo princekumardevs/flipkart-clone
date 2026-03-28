@@ -11,8 +11,14 @@ function buildImageSet(query) {
     .replace(/[^a-z0-9]+/g, ',')
     .replace(/^,|,$/g, '');
 
+  const queryKey = tags || 'product';
+  let hash = 0;
+  for (let i = 0; i < queryKey.length; i += 1) {
+    hash = (hash * 31 + queryKey.charCodeAt(i)) % 100000;
+  }
+
   return [1, 2, 3].map(
-    (lock) => `https://loremflickr.com/800/800/${tags}?lock=${lock}`
+    (offset) => `https://loremflickr.com/800/800/${queryKey}?lock=${hash + offset}`
   );
 }
 

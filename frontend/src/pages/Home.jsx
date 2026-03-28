@@ -46,6 +46,9 @@ function Home() {
     fetchProducts();
   }, [fetchProducts]);
 
+  const selectedCategoryName =
+    categories.find((category) => category.id === selectedCategory)?.name || null;
+
   return (
     <div className="min-h-screen bg-flipkart-light">
       <CategoryFilter
@@ -66,7 +69,11 @@ function Home() {
         <div className="bg-white mt-3 sm:mt-4 mb-6 sm:mb-8 shadow-[0_1px_1px_0_rgba(0,0,0,.16)] rounded-sm overflow-hidden">
           <div className="px-3 sm:px-6 py-4 sm:py-5 border-b border-[#f0f0f0]">
             <h2 className="text-[18px] sm:text-[22px] font-bold text-flipkart-dark">
-              {searchQuery ? `Search Results` : (selectedCategory ? `Featured Collection` : `Best of Electronics & Home`)}
+              {searchQuery
+                ? 'Search Results'
+                : selectedCategoryName
+                  ? selectedCategoryName
+                  : 'Best of Electronics & Home'}
             </h2>
           </div>
           
