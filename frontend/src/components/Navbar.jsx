@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { cartCount } = useCart();
   const { user, logout } = useAuth();
@@ -20,8 +21,16 @@ function Navbar() {
 
   return (
     <nav className="bg-flipkart-blue h-[56px] fixed w-full top-0 z-50 flex items-center shadow-md">
-      <div className="max-w-[1248px] w-full mx-auto px-4 flex items-center gap-4 lg:gap-8">
+      <div className="max-w-[1248px] w-full mx-auto px-4 flex items-center gap-3 md:gap-4 lg:gap-8 relative">
         
+        {/* Mobile Hamburger (Only visible on < md) */}
+        <button 
+           className="md:hidden text-white flex items-center p-1 cursor-pointer"
+           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+
         {/* Logo */}
         <Link to="/" className="shrink-0 flex flex-col items-center">
           <span className="text-white text-[20px] font-bold italic tracking-tight leading-none h-[22px]">Flipkart</span>
@@ -104,6 +113,26 @@ function Navbar() {
             Cart
           </Link>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-[56px] left-0 w-full bg-white shadow-lg text-black flex flex-col z-[100] border-t border-[#f0f0f0] transition-all animate-slide-up">
+             {user ? (
+                <div className="bg-flipkart-blue text-white p-4 font-medium flex items-center gap-3">
+                   <div className="w-10 h-10 rounded-full bg-white text-flipkart-blue flex items-center justify-center font-bold text-lg">{user.firstName[0].toUpperCase()}</div>
+                   <div>{user.firstName} {user.lastName}</div>
+                </div>
+             ) : (
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] font-medium text-flipkart-blue">Login / Sign Up</Link>
+             )}
+             <Link to="/" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">🏠</span> Home</Link>
+             <Link to="/orders" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">📦</span> My Orders</Link>
+             <Link to="/wishlist" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">❤️</span> Wishlist</Link>
+             <Link to="/cart" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">🛒</span> Cart ({cartCount})</Link>
+             {user && <button onClick={() => { logout(); setMobileMenuOpen(false); }} className="p-4 border-b border-[#f0f0f0] text-left flex items-center gap-3 text-red-500 font-medium"><span className="text-xl">🚪</span> Logout</button>}
+          </div>
+        )}
+
       </div>
     </nav>
   );

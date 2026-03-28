@@ -62,10 +62,10 @@ function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-flipkart-light pt-4 px-2 pb-8">
-        <div className="max-w-[1248px] mx-auto bg-white p-6 shadow-[0_1px_1px_0_rgba(0,0,0,.16)] min-h-[600px] flex animate-pulse">
-           <div className="w-[40%] bg-gray-100 mr-8"></div>
-           <div className="w-[60%] space-y-4">
+      <div className="min-h-screen bg-flipkart-light pt-8 px-2 pb-8">
+        <div className="max-w-[1248px] mx-auto bg-white p-4 md:p-6 shadow-[0_1px_1px_0_rgba(0,0,0,.16)] min-h-[600px] flex flex-col md:flex-row relative">
+           <div className="w-full md:w-[45%] lg:w-[40%] bg-gray-100 mr-8 mb-6 md:mb-0"></div>
+           <div className="w-full md:w-[55%] lg:w-[60%] space-y-4">
               <div className="h-6 bg-gray-200 w-3/4"></div>
               <div className="h-8 bg-gray-200 w-1/4"></div>
               <div className="h-10 bg-gray-200 w-full mt-8"></div>

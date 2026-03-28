@@ -65,12 +65,27 @@ function Login() {
               <a href="#" className="text-flipkart-blue">Privacy Policy</a>.
             </p>
 
-            <button
-              type="submit"
-              className="w-full bg-flipkart-orange text-white py-3 rounded-sm font-medium text-[15px] shadow-sm hover:bg-[#f3580b] transition-colors"
+            <button 
+              type="submit" 
+              className="w-full bg-flipkart-orange text-white py-[10px] rounded-sm font-medium text-[15px] shadow-sm mb-4"
             >
               Login
             </button>
+            
+            <div className="mb-4 p-4 bg-[#f4f8ff] border border-flipkart-blue/20 rounded-sm flex justify-between items-center">
+              <div className="text-[13px] text-flipkart-dark">
+                <span className="font-bold block mb-1">Instant Test Account</span>
+                test@flipkart.com / testpassword
+              </div>
+              <button 
+                type="button" 
+                onClick={() => { setEmail('test@flipkart.com'); setPassword('testpassword'); }}
+                className="px-4 py-1.5 bg-white border border-flipkart-blue text-flipkart-blue rounded-sm text-[13px] font-medium hover:bg-flipkart-blue hover:text-white transition-colors"
+              >
+                Use
+              </button>
+            </div>
+            
             <div className="text-center mt-4">
               <a href="#" className="text-[14px] text-flipkart-blue">Forgot Password?</a>
             </div>

@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 function Cart() {
+  const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -142,7 +144,14 @@ function Cart() {
               {/* Place Order CTA */}
               <div className="p-4 flex justify-end shadow-[0_-2px_10px_0_rgba(0,0,0,.1)] bg-white sticky bottom-0 z-10 w-full">
                 <button 
-                  onClick={() => navigate('/checkout')}
+                  onClick={() => {
+                    if (!user) {
+                      toast.error('Please login to place an order');
+                      navigate('/login');
+                    } else {
+                      navigate('/checkout');
+                    }
+                  }}
                   className="bg-flipkart-orange text-white px-[40px] py-[16px] rounded-sm font-medium text-[16px] shadow-sm uppercase tracking-wide"
                 >
                   Place Order
