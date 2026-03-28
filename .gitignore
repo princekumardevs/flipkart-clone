@@ -5,3 +5,9 @@ build/
 .DS_Store
 *.log
 css_output.txt
+
+prd.md
+assignment.md
+backend/node_modules
+frontend/node_modules
+document_pdf.pdf

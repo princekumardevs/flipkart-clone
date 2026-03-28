@@ -68,11 +68,11 @@ function Navbar() {
                   </div>
                 </div>
                 <div className="py-2">
-                  <div className="px-4 py-3 hover:bg-[#f5faff] cursor-pointer text-[14px] flex items-center gap-4 text-flipkart-grey hover:text-flipkart-blue hover:font-medium">
+                  <div onClick={() => navigate('/orders')} className="px-4 py-3 hover:bg-[#f5faff] cursor-pointer text-[14px] flex items-center gap-4 text-flipkart-grey hover:text-flipkart-blue hover:font-medium">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.32 2.405H4.887C3 2.405 2.46.805 2.46.805L2.257.21C2.208.085 2.083 0 1.946 0H.336C.1 0-.064.24.024.46l.644 1.945L3.11 9.767c.047.237.248.402.49.402h9.522c.26 0 .484-.183.528-.44l1.83-7.5c.032-.132.002-.27-.08-.372-.08-.104-.21-.157-.34-.148zM5.336 12.672c-1.1 0-1.996.896-1.996 1.996 0 1.1.896 1.996 1.996 1.996 1.1 0 1.996-.896 1.996-1.996 0-1.1-.896-1.996-1.996-1.996zm7.252 0c-1.1 0-1.996.896-1.996 1.996 0 1.1.896 1.996 1.996 1.996 1.1 0 1.996-.896 1.996-1.996 0-1.1-.896-1.996-1.996-1.996z" /></svg>
                     Orders
                   </div>
-                  <div className="px-4 py-3 hover:bg-[#f5faff] cursor-pointer text-[14px] flex items-center gap-4 text-flipkart-grey hover:text-flipkart-blue hover:font-medium">
+                  <div onClick={() => navigate('/wishlist')} className="px-4 py-3 hover:bg-[#f5faff] cursor-pointer text-[14px] flex items-center gap-4 text-flipkart-grey hover:text-flipkart-blue hover:font-medium">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 15.025l-1.16-1.056C2.7 10.22 0 7.766 0 4.7 0 2.296 1.91 0 4.4 0c1.4 0 2.74.654 3.6 1.708C8.86.654 10.2 0 11.6 0 14.09 0 16 2.296 16 4.7c0 3.066-2.7 5.52-6.84 9.27L8 15.025z" /></svg>
                     Wishlist
                   </div>
