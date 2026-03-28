@@ -14,7 +14,7 @@ function ImageCarousel({ images = [] }) {
             key={index}
             onClick={() => setSelectedIndex(index)}
             className={`shrink-0 w-16 h-16 rounded border-2 overflow-hidden transition-colors cursor-pointer ${
-              selectedIndex === index ? 'border-[#2874f0]' : 'border-[#e0e0e0] hover:border-[#c0c0c0]'
+              selectedIndex === index ? 'border-flipkart-blue' : 'border-[#e0e0e0] hover:border-[#c0c0c0]'
             }`}
           >
             <img

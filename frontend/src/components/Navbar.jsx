@@ -88,16 +88,7 @@ function Navbar() {
               Login
             </Link>
           )}
-          <Link to="#" className="text-white text-[15px] font-medium hover:opacity-90">
-            Become a Seller
-          </Link>
-          <Link to="/" className="text-white text-[15px] font-medium flex items-center gap-1 hover:opacity-90">
-            More
-            <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 24 24">
-              <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L12 12.586l5.293-5.293a1 1 0 111.414 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414z" clipRule="evenodd"/>
-            </svg>
-          </Link>
-          
+ 
           {/* Cart */}
           <Link to="/cart" className="flex items-center text-white text-[15px] font-medium hover:opacity-90 tracking-wide">
             <div className="relative mr-2">

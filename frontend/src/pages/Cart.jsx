@@ -60,7 +60,7 @@ function Cart() {
   const finalAmount = totalAmount + deliveryCharges;
 
   if (loading) {
-     return <div className="min-h-screen bg-flipkart-light pt-4 p-2"><div className="w-full h-[500px] bg-white animate-pulse"></div></div>;
+     return <div className="min-h-screen bg-flipkart-lightlight pt-4 p-2"><div className="w-full h-[500px] bg-white animate-pulse"></div></div>;
   }
 
   if (cartItems.length === 0) {
