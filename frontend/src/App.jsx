@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Wishlist from './pages/Wishlist';
 import Orders from './pages/Orders';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (

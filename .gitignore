@@ -6,8 +6,8 @@ build/
 *.log
 css_output.txt
 
-prd.md
-assignment.md
-backend/node_modules
-frontend/node_modules
-document_pdf.pdf
+./prd.md
+./assignment.md
+./backend/node_modules
+./frontend/node_modules
+./document_pdf.pdf
