@@ -5,6 +5,17 @@ const prisma = new PrismaClient({
   datasourceUrl: process.env.DATABASE_URL,
 });
 
+function buildImageSet(query) {
+  const tags = query
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ',')
+    .replace(/^,|,$/g, '');
+
+  return [1, 2, 3].map(
+    (lock) => `https://loremflickr.com/800/800/${tags}?lock=${lock}`
+  );
+}
+
 async function main() {
   // Clear existing data
   await prisma.orderItem.deleteMany();
@@ -19,35 +30,35 @@ async function main() {
       data: {
         name: 'Electronics',
         slug: 'electronics',
-        imageUrl: 'https://picsum.photos/seed/electronics/200/200',
+        imageUrl: buildImageSet('electronics gadgets')[0],
       },
     }),
     prisma.category.create({
       data: {
         name: 'Fashion',
         slug: 'fashion',
-        imageUrl: 'https://picsum.photos/seed/fashion/200/200',
+        imageUrl: buildImageSet('fashion clothing')[0],
       },
     }),
     prisma.category.create({
       data: {
         name: 'Home & Kitchen',
         slug: 'home-kitchen',
-        imageUrl: 'https://picsum.photos/seed/home/200/200',
+        imageUrl: buildImageSet('home kitchen appliances')[0],
       },
     }),
     prisma.category.create({
       data: {
         name: 'Books',
         slug: 'books',
-        imageUrl: 'https://picsum.photos/seed/books/200/200',
+        imageUrl: buildImageSet('books reading')[0],
       },
     }),
     prisma.category.create({
       data: {
         name: 'Sports',
         slug: 'sports',
-        imageUrl: 'https://picsum.photos/seed/sports/200/200',
+        imageUrl: buildImageSet('sports fitness')[0],
       },
     }),
   ]);
@@ -605,10 +616,92 @@ async function main() {
       ],
       specifications: { Weight: '5 kg (pair)', Material: 'PVC', Grip: 'Anti-slip', Use: 'Home Gym', 'Set Includes': '2 Dumbbells' },
     },
+
+    // Additional category-relevant products (5)
+    {
+      name: 'OnePlus Nord Buds 2r',
+      description: 'True wireless earbuds with 12.4mm drivers, Bluetooth 5.3, and low-latency gaming mode.',
+      price: 2199,
+      originalPrice: 3299,
+      discountPercent: 33,
+      stock: 95,
+      rating: 4.2,
+      ratingCount: 7632,
+      categoryId: electronics.id,
+      brand: 'OnePlus',
+      images: [],
+      specifications: { Driver: '12.4mm', Connectivity: 'Bluetooth 5.3', Battery: '38 hours', Resistance: 'IP55', Mic: 'Dual AI Mic' },
+    },
+    {
+      name: 'Adidas Essentials Cotton Hoodie',
+      description: 'Comfortable regular-fit hoodie made with soft cotton blend and ribbed cuffs.',
+      price: 1999,
+      originalPrice: 3499,
+      discountPercent: 42,
+      stock: 88,
+      rating: 4.1,
+      ratingCount: 4120,
+      categoryId: fashion.id,
+      brand: 'Adidas',
+      images: [],
+      specifications: { Fit: 'Regular', Fabric: 'Cotton Blend', Sleeve: 'Full Sleeve', Pattern: 'Solid', Hood: 'Adjustable Drawcord' },
+    },
+    {
+      name: 'Instant Vortex 4L Air Fryer',
+      description: '4L digital air fryer with one-touch controls, rapid air circulation, and 1400W heating.',
+      price: 5299,
+      originalPrice: 7999,
+      discountPercent: 34,
+      stock: 34,
+      rating: 4.4,
+      ratingCount: 2198,
+      categoryId: homeKitchen.id,
+      brand: 'Instant',
+      images: [],
+      specifications: { Capacity: '4 L', Power: '1400W', Controls: 'Digital Touch', Modes: '6 Presets', Warranty: '1 Year' },
+    },
+    {
+      name: 'Deep Work by Cal Newport',
+      description: 'Rules for focused success in a distracted world. A practical guide to mastering deep work.',
+      price: 379,
+      originalPrice: 699,
+      discountPercent: 46,
+      stock: 210,
+      rating: 4.5,
+      ratingCount: 14021,
+      categoryId: books.id,
+      brand: 'Piatkus',
+      images: [],
+      specifications: { Author: 'Cal Newport', Pages: '304', Language: 'English', Publisher: 'Piatkus', Format: 'Paperback' },
+    },
+    {
+      name: 'Decathlon Resistance Band Set',
+      description: 'Multi-level resistance bands for mobility, stretching, and full-body home workouts.',
+      price: 899,
+      originalPrice: 1499,
+      discountPercent: 40,
+      stock: 140,
+      rating: 4.3,
+      ratingCount: 5324,
+      categoryId: sports.id,
+      brand: 'Decathlon',
+      images: [],
+      specifications: { Levels: 'Light/Medium/Heavy', Material: 'Natural Latex', Use: 'Strength & Mobility', Count: '3 Bands', Accessories: 'Carry Bag' },
+    },
   ];
 
+  const categoryNameById = Object.fromEntries(categories.map((category) => [category.id, category.name]));
+
   for (const product of products) {
-    await prisma.product.create({ data: product });
+    const categoryName = categoryNameById[product.categoryId] || '';
+    const imageQuery = `${product.brand || ''} ${product.name} ${categoryName} product`;
+
+    await prisma.product.create({
+      data: {
+        ...product,
+        images: buildImageSet(imageQuery),
+      },
+    });
   }
 
   console.log('✅ Seed data created successfully!');
