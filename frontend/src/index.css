@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* Ensure basic colors are available under Tailwind namespace */
+@theme {
+  --color-flipkart-blue: #2874f0;
+  --color-flipkart-yellow: #ff9f00;
+  --color-flipkart-orange: #fb641b;
+  --color-flipkart-green: #388e3c;
+  --color-flipkart-dark: #212121;
+  --color-flipkart-grey: #878787;
+  --color-flipkart-light: #f1f3f6;
+}
+
+:root {
+  background-color: var(--color-flipkart-light);
+  color: var(--color-flipkart-dark);
+}
+
+body {
+  font-family: Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #f1f3f6;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar for Flipkart style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

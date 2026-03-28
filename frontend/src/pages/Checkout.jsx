@@ -1,0 +1,226 @@
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../lib/api';
+import toast from 'react-hot-toast';
+
+function Checkout() {
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [placingOrder, setPlacingOrder] = useState(false);
+  
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    state: '',
+    pincode: ''
+  });
+  const [errors, setErrors] = useState({});
+
+  const fetchCart = useCallback(async () => {
+    try {
+      let sessionId = localStorage.getItem('sessionId');
+      const { data } = await api.get(`/api/cart/${sessionId}`);
+      setCartItems(data.data);
+      if (data.data.length === 0) {
+        navigate('/cart');
+      }
+    } catch (error) {
+      console.error('Failed to fetch cart:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\\d{10}$/.test(formData.phone.trim())) {
+      newErrors.phone = 'Enter a valid 10-digit phone number';
+    }
+    if (!formData.addressLine1.trim()) newErrors.addressLine1 = 'Address is required';
+    if (!formData.city.trim()) newErrors.city = 'City is required';
+    if (!formData.state.trim()) newErrors.state = 'State is required';
+    if (!formData.pincode.trim()) {
+      newErrors.pincode = 'Pincode is required';
+    } else if (!/^\\d{6}$/.test(formData.pincode.trim())) {
+      newErrors.pincode = 'Enter a valid 6-digit pincode';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    
+    setPlacingOrder(true);
+    try {
+      const sessionId = localStorage.getItem('sessionId');
+      const { data } = await api.post('/api/orders', {
+        sessionId,
+        ...formData
+      });
+      // Assuming cart context clears automatically or via another refetch
+      toast.success('Order placed successfully!');
+      navigate(`/order-success?order=${data.data.orderNumber}`);
+    } catch (error) {
+      toast.error(error.response?.data?.error || 'Failed to place order');
+    } finally {
+      setPlacingOrder(false);
+    }
+  };
+
+  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalAmount = cartItems.reduce((acc, item) => acc + (parseFloat(item.product.price) * item.quantity), 0);
+  const totalOriginal = cartItems.reduce((acc, item) => acc + ((item.product.originalPrice ? parseFloat(item.product.originalPrice) : parseFloat(item.product.price)) * item.quantity), 0);
+  const discount = totalOriginal - totalAmount;
+  const deliveryCharges = totalAmount >= 499 ? 0 : 40;
+  const finalAmount = totalAmount + deliveryCharges;
+
+  if (loading) {
+     return <div className="min-h-[calc(100vh-56px)] bg-[#f1f3f6] pt-4 p-2"><div className="max-w-[1248px] mx-auto h-[500px] bg-white animate-pulse"></div></div>;
+  }
+
+  const InputClass = (name) => `w-full px-4 py-[14px] border ${errors[name] ? 'border-red-500 bg-red-50' : 'border-[#e0e0e0]'} rounded-sm text-[16px] bg-white outline-none focus:border-[#2874f0] transition-colors`;
+
+  return (
+    <div className="min-h-[calc(100vh-56px)] bg-[#f1f3f6] pt-8 px-2 pb-8">
+      <div className="max-w-[1248px] mx-auto flex flex-col lg:flex-row gap-4">
+        
+        {/* Left: Checkout Steps */}
+        <div className="flex-1 space-y-4">
+          
+          {/* Step 1 */}
+          <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)]">
+            <div className="px-6 py-4 flex items-center justify-between border-b border-[#f0f0f0]">
+               <h2 className="text-[16px] font-medium text-[#212121] uppercase flex items-center gap-4">
+                 <span className="bg-[#f0f0f0] text-[#2874f0] w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-medium">1</span>
+                 Login
+               </h2>
+               <div className="text-[14px] font-medium text-[#212121] flex items-center gap-2">
+                 Guest User <svg className="w-4 h-4 text-[#2874f0]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/></svg>
+               </div>
+            </div>
+          </div>
+
+          {/* Step 2 */}
+          <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)]">
+            <div className="px-6 py-4 bg-[#2874f0] text-white flex items-center justify-between">
+               <h2 className="text-[16px] font-medium uppercase flex items-center gap-4">
+                 <span className="bg-white text-[#2874f0] w-6 h-6 rounded-sm flex items-center justify-center text-[13px] font-medium">2</span>
+                 Delivery Address
+               </h2>
+            </div>
+            <div className="p-6 bg-[#f5faff]">
+              <form onSubmit={handleSubmit} className="bg-white p-6 border border-[#f0f0f0] shadow-sm max-w-[800px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Name" className={InputClass('fullName')} />
+                    {errors.fullName && <p className="text-[12px] text-red-500 mt-1">{errors.fullName}</p>}
+                  </div>
+                  <div>
+                    <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="10-digit mobile number" className={InputClass('phone')} />
+                    {errors.phone && <p className="text-[12px] text-red-500 mt-1">{errors.phone}</p>}
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <input type="text" name="pincode" value={formData.pincode} onChange={handleInputChange} placeholder="Pincode" className={InputClass('pincode')} />
+                    {errors.pincode && <p className="text-[12px] text-red-500 mt-1">{errors.pincode}</p>}
+                  </div>
+                  <div>
+                    <input type="text" name="city" value={formData.city} onChange={handleInputChange} placeholder="City/District/Town" className={InputClass('city')} />
+                    {errors.city && <p className="text-[12px] text-red-500 mt-1">{errors.city}</p>}
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <textarea name="addressLine1" value={formData.addressLine1} onChange={handleInputChange} placeholder="Address (Area and Street)" rows="3" className={`${InputClass('addressLine1')} py-3 resize-none`} />
+                  {errors.addressLine1 && <p className="text-[12px] text-red-500 mt-1">{errors.addressLine1}</p>}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                  <div>
+                    <input type="text" name="state" value={formData.state} onChange={handleInputChange} placeholder="State" className={InputClass('state')} />
+                    {errors.state && <p className="text-[12px] text-red-500 mt-1">{errors.state}</p>}
+                  </div>
+                  <div>
+                    <input type="text" name="addressLine2" value={formData.addressLine2} onChange={handleInputChange} placeholder="Locality / Landmark (Optional)" className={InputClass('addressLine2')} />
+                  </div>
+                </div>
+
+                <div className="flex justify-start">
+                  <button 
+                    type="submit" 
+                    disabled={placingOrder}
+                    className="bg-[#fb641b] text-white px-10 py-3 rounded-sm font-medium text-[16px] shadow-sm uppercase tracking-wide hover:-translate-y-[1px] transition-transform disabled:opacity-60"
+                  >
+                    {placingOrder ? 'Processing...' : 'Save and Deliver Here'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Right: Price Details */}
+        <div className="w-full lg:w-[350px] shrink-0 sticky top-[72px] self-start">
+           <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] pb-4">
+             <div className="px-6 py-4 border-b border-[#f0f0f0]">
+                <h3 className="text-[16px] text-[#878787] font-medium uppercase tracking-wide">Price Details</h3>
+             </div>
+             <div className="px-6 box-border font-medium">
+               <div className="flex justify-between mt-5 text-[16px] text-[#212121]">
+                 <span>Price ({totalItems} items)</span>
+                 <span>₹{totalOriginal.toLocaleString()}</span>
+               </div>
+               <div className="flex justify-between mt-5 text-[16px] text-[#212121]">
+                 <span>Discount</span>
+                 <span className="text-[#388e3c]">− ₹{discount.toLocaleString()}</span>
+               </div>
+               <div className="flex justify-between mt-5 text-[16px] text-[#212121]">
+                 <span>Delivery Charges</span>
+                 <span className="text-[#388e3c]">{deliveryCharges === 0 ? 'Free' : `₹${deliveryCharges}`}</span>
+               </div>
+               <div className="flex justify-between mt-5 pt-5 text-[18px] text-[#212121] font-bold border-t border-dashed border-[#e0e0e0]">
+                 <span>Total Payable</span>
+                 <span>₹{finalAmount.toLocaleString()}</span>
+               </div>
+               <div className="text-[16px] text-[#388e3c] mt-5 font-medium tracking-tight">
+                 Your Total Savings on this order ₹{discount.toLocaleString()}
+               </div>
+             </div>
+           </div>
+           
+           <div className="mt-4 flex items-center justify-start gap-4 text-[#878787] px-4">
+             <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/shield_b33c0c.svg" className="w-[29px] h-[35px]" alt="Safe" />
+             <div className="text-[13px] font-medium">Safe and Secure Payments.Easy returns.100% Authentic products.</div>
+           </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+export default Checkout;
