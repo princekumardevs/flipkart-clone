@@ -45,7 +45,7 @@ function Orders() {
             <img src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/empty-orders_20bbd5.png" alt="No Orders" className="w-[150px] sm:w-[200px] mb-6" />
             <h2 className="text-[16px] sm:text-[18px] font-medium mb-4">You have no orders</h2>
             <button 
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/home')}
               className="bg-flipkart-orange hover:bg-[#f65a0b] text-white px-6 sm:px-8 py-2.5 rounded-sm text-[14px] sm:text-[15px] font-medium shadow-sm transition-colors"
             >
               Start Shopping

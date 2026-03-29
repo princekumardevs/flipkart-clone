@@ -14,7 +14,7 @@ function Signup() {
     e.preventDefault();
     const success = await signup(firstName, lastName, email, password);
     if (success) {
-      navigate('/');
+      navigate('/home');
     }
   };
 

@@ -6,6 +6,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isGuest, setIsGuest] = useState(localStorage.getItem('guestMode') === 'true');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -13,22 +14,19 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('token');
       if (token) {
         try {
-          // Temporarily attach token to this request if api doesn't auto do it
-          // In lib/api.js we should ideally have an interceptor, but we'll manually fetch here if needed
-          const res = await fetch('http://localhost:5000/api/auth/me', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+          const res = await api.get('/api/auth/me', {
+            headers: { Authorization: `Bearer ${token}` },
           });
-          if (res.ok) {
-            const data = await res.json();
-            setUser(data);
-          } else {
-            localStorage.removeItem('token');
-          }
+          setUser(res.data);
+          setIsGuest(false);
         } catch (err) {
-          console.error(err);
+          localStorage.removeItem('token');
+          setUser(null);
+          setIsGuest(localStorage.getItem('guestMode') === 'true');
         }
+      } else {
+        setUser(null);
+        setIsGuest(localStorage.getItem('guestMode') === 'true');
       }
       setLoading(false);
     };
@@ -40,7 +38,9 @@ export const AuthProvider = ({ children }) => {
       const res = await api.post('/api/auth/login', { email, password });
       const data = res.data;
       localStorage.setItem('token', data.token);
+      localStorage.removeItem('guestMode');
       setUser(data);
+      setIsGuest(false);
       toast.success('Logged in successfully');
       return true;
     } catch (err) {
@@ -54,7 +54,9 @@ export const AuthProvider = ({ children }) => {
       const res = await api.post('/api/auth/register', { firstName, lastName, email, password });
       const data = res.data;
       localStorage.setItem('token', data.token);
+      localStorage.removeItem('guestMode');
       setUser(data);
+      setIsGuest(false);
       toast.success('Account created successfully');
       return true;
     } catch (err) {
@@ -65,12 +67,22 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('guestMode');
     setUser(null);
+    setIsGuest(false);
     toast.success('Logged out');
   };
 
+  const continueAsGuest = () => {
+    localStorage.removeItem('token');
+    localStorage.setItem('guestMode', 'true');
+    setUser(null);
+    setIsGuest(true);
+    toast.success('Continuing as Guest');
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, loading }}>
+    <AuthContext.Provider value={{ user, isGuest, login, signup, logout, continueAsGuest, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

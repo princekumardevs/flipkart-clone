@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import { getProductImage, handleProductImageError } from '../lib/productImages';
 
 function Checkout() {
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
+  const { refreshCartCount } = useCart();
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,6 +30,16 @@ function Checkout() {
   });
   const [errors, setErrors] = useState({});
 
+  const defaultGuestAddress = {
+    fullName: 'Guest User',
+    phone: '9999999999',
+    addressLine1: '221B Market Road',
+    addressLine2: 'Near City Mall',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    pincode: '560001',
+  };
+
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
@@ -42,9 +55,13 @@ function Checkout() {
           }
         } else {
           setShowNewAddressForm(true);
+          setFormData(defaultGuestAddress);
         }
       } catch (error) {
         setShowNewAddressForm(true);
+        if (!localStorage.getItem('token')) {
+          setFormData(defaultGuestAddress);
+        }
       }
     };
     fetchAddresses();
@@ -53,6 +70,10 @@ function Checkout() {
   const fetchCart = useCallback(async () => {
     try {
       let sessionId = localStorage.getItem('sessionId');
+      if (!sessionId) {
+        sessionId = crypto.randomUUID();
+        localStorage.setItem('sessionId', sessionId);
+      }
       const { data } = await api.get(`/api/cart/${sessionId}`);
       setCartItems(data.data);
       if (data.data.length === 0) {
@@ -108,6 +129,7 @@ function Checkout() {
         sessionId,
         ...addressData
       }, config);
+      await refreshCartCount();
       toast.success('Order placed successfully!');
       navigate(`/order-success?order=${data.data.orderNumber}`);
     } catch (error) {
@@ -222,6 +244,11 @@ function Checkout() {
               {showNewAddressForm && (
                 <form onSubmit={handleSubmit} className="bg-white p-3 sm:p-6 border border-[#f0f0f0] shadow-sm max-w-[800px]">
                   <h3 className="text-[14px] text-flipkart-blue font-medium uppercase tracking-wide mb-6">Add a new address</h3>
+                  {isGuest && (
+                    <div className="mb-4 rounded-sm bg-[#f5faff] border border-[#d7e6ff] p-3 text-[12px] sm:text-[13px] text-flipkart-dark">
+                      Default guest address is pre-filled for quick checkout. You can edit any field before placing the order.
+                    </div>
+                  )}
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
@@ -266,7 +293,7 @@ function Checkout() {
                       disabled={savingAddress || placingOrder}
                       className="bg-flipkart-orange hover:bg-[#f65a0b] text-white w-full sm:w-auto px-6 sm:px-10 py-3 rounded-sm font-medium text-[13px] sm:text-[14px] shadow-sm uppercase tracking-wide transition-colors disabled:opacity-60"
                     >
-                      {savingAddress || placingOrder ? 'Processing...' : 'Save and Deliver Here'}
+                      {savingAddress || placingOrder ? 'Processing...' : isGuest ? 'Deliver To This Address' : 'Save and Deliver Here'}
                     </button>
                     {addresses.length > 0 && (
                       <button 
@@ -285,8 +312,33 @@ function Checkout() {
 
         </div>
 
-        {/* Right: Price Details */}
+        {/* Right: Order Summary + Price Details */}
         <div className="w-full lg:w-[350px] shrink-0 lg:sticky lg:top-[72px] self-start">
+           <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] mb-4">
+             <div className="px-6 py-4 border-b border-[#f0f0f0]">
+                <h3 className="text-[16px] text-flipkart-grey font-medium uppercase tracking-wide">Order Summary</h3>
+             </div>
+             <div className="px-4 py-2">
+               {cartItems.map((item) => (
+                 <div key={item.id} className="flex gap-3 py-3 border-b border-[#f0f0f0] last:border-b-0">
+                   <img
+                     src={getProductImage(item.product)}
+                     alt={item.product.name}
+                     className="w-12 h-12 object-contain shrink-0"
+                     onError={(event) => handleProductImageError(event, item.product?.category?.name)}
+                   />
+                   <div className="flex-1 min-w-0">
+                     <p className="text-[13px] text-flipkart-dark font-medium truncate">{item.product.name}</p>
+                     <p className="text-[12px] text-flipkart-grey mt-1">Qty: {item.quantity}</p>
+                   </div>
+                   <div className="text-[13px] text-flipkart-dark font-medium shrink-0">
+                     ₹{(parseFloat(item.product.price) * item.quantity).toLocaleString()}
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </div>
+
            <div className="bg-white rounded-sm shadow-[0_1px_2px_0_rgba(0,0,0,.2)] pb-4">
              <div className="px-6 py-4 border-b border-[#f0f0f0]">
                 <h3 className="text-[16px] text-flipkart-grey font-medium uppercase tracking-wide">Price Details</h3>

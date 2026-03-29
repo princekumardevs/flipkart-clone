@@ -8,14 +8,20 @@ function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { cartCount } = useCart();
-  const { user, logout } = useAuth();
+  const { user, isGuest, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    setMobileMenuOpen(false);
+    navigate('/');
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/home?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
-      navigate('/');
+      navigate('/home');
     }
   };
 
@@ -33,7 +39,7 @@ function Navbar() {
           </button>
 
           {/* Logo */}
-          <Link to="/" className="shrink-0 flex flex-col items-start md:items-center">
+          <Link to="/home" className="shrink-0 flex flex-col items-start md:items-center">
             <span className="text-white text-[19px] md:text-[20px] font-bold italic tracking-tight leading-none h-[22px]">Flipkart</span>
             <span className="flex items-center hover:underline italic gap-1 leading-none mt-px">
               <span className="text-[11px] text-white italic">Explore</span>
@@ -86,12 +92,22 @@ function Navbar() {
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 15.025l-1.16-1.056C2.7 10.22 0 7.766 0 4.7 0 2.296 1.91 0 4.4 0c1.4 0 2.74.654 3.6 1.708C8.86.654 10.2 0 11.6 0 14.09 0 16 2.296 16 4.7c0 3.066-2.7 5.52-6.84 9.27L8 15.025z" /></svg>
                     Wishlist
                   </div>
-                  <div onClick={logout} className="px-4 py-3 hover:bg-[#f5faff] cursor-pointer text-[14px] flex items-center gap-4 text-flipkart-grey hover:text-flipkart-blue hover:font-medium">
+                  <div onClick={handleLogout} className="px-4 py-3 hover:bg-[#f5faff] cursor-pointer text-[14px] flex items-center gap-4 text-flipkart-grey hover:text-flipkart-blue hover:font-medium">
                     <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0-1A6 6 0 1 0 8 2a6 6 0 0 0 0 12zM7 4h2v5H7V4zm1 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
                     Logout
                   </div>
                 </div>
               </div>
+            </div>
+          ) : isGuest ? (
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 text-white text-[14px] font-medium">
+                <span className="w-7 h-7 rounded-full bg-white text-flipkart-blue flex items-center justify-center text-[12px] font-bold">G</span>
+                Guest Account
+              </div>
+              <Link to="/login" className="bg-white text-flipkart-blue px-5 py-[6px] rounded-sm font-medium text-[14px] cursor-pointer hover:shadow-sm whitespace-nowrap">
+                Login
+              </Link>
             </div>
           ) : (
             <Link to="/login" className="bg-white text-flipkart-blue px-6 lg:px-10 py-[6px] rounded-sm font-medium text-[15px] cursor-pointer hover:shadow-sm whitespace-nowrap">
@@ -115,8 +131,24 @@ function Navbar() {
           </Link>
           </div>
 
+          {/* Mobile Account Chip */}
+          {(user || isGuest) && (
+            <Link
+              to={user ? '/orders' : '/login'}
+              className="md:hidden ml-auto max-w-[120px] flex items-center gap-2 text-white"
+              aria-label="Account"
+            >
+              <span className="w-7 h-7 rounded-full bg-white text-flipkart-blue flex items-center justify-center text-[12px] font-bold shrink-0">
+                {user?.firstName ? user.firstName[0].toUpperCase() : 'G'}
+              </span>
+              <span className="text-[13px] font-medium truncate">
+                {user?.firstName || 'Guest'}
+              </span>
+            </Link>
+          )}
+
           {/* Mobile Cart Shortcut */}
-          <Link to="/cart" className="md:hidden ml-auto flex items-center text-white text-[14px] font-medium">
+          <Link to="/cart" className="md:hidden flex items-center text-white text-[14px] font-medium">
             <div className="relative mr-1.5">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.32 2.405H4.887C3 2.405 2.46.805 2.46.805L2.257.21C2.208.085 2.083 0 1.946 0H.336C.1 0-.064.24.024.46l.644 1.945L3.11 9.767c.047.237.248.402.49.402h9.522c.26 0 .484-.183.528-.44l1.83-7.5c.032-.132.002-.27-.08-.372-.08-.104-.21-.157-.34-.148zM5.336 12.672c-1.1 0-1.996.896-1.996 1.996 0 1.1.896 1.996 1.996 1.996 1.1 0 1.996-.896 1.996-1.996 0-1.1-.896-1.996-1.996-1.996zm7.252 0c-1.1 0-1.996.896-1.996 1.996 0 1.1.896 1.996 1.996 1.996 1.1 0 1.996-.896 1.996-1.996 0-1.1-.896-1.996-1.996-1.996z" />
@@ -155,14 +187,19 @@ function Navbar() {
                    <div className="w-10 h-10 rounded-full bg-white text-flipkart-blue flex items-center justify-center font-bold text-lg">{user.firstName[0].toUpperCase()}</div>
                    <div>{user.firstName} {user.lastName}</div>
                 </div>
+             ) : isGuest ? (
+               <div className="bg-flipkart-blue text-white p-4 font-medium flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-full bg-white text-flipkart-blue flex items-center justify-center font-bold text-lg">G</div>
+                 <div>Guest Account</div>
+               </div>
              ) : (
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] font-medium text-flipkart-blue">Login / Sign Up</Link>
              )}
-             <Link to="/" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">🏠</span> Home</Link>
-             <Link to="/orders" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">📦</span> My Orders</Link>
-             <Link to="/wishlist" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">❤️</span> Wishlist</Link>
+             <Link to="/home" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">🏠</span> Home</Link>
+             <Link to={user ? '/orders' : '/login'} onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">📦</span> {user ? 'My Orders' : 'My Orders (Login)'}</Link>
+             <Link to={user ? '/wishlist' : '/login'} onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">❤️</span> {user ? 'Wishlist' : 'Wishlist (Login)'}</Link>
              <Link to="/cart" onClick={() => setMobileMenuOpen(false)} className="p-4 border-b border-[#f0f0f0] flex items-center gap-3"><span className="text-xl">🛒</span> Cart ({cartCount})</Link>
-             {user && <button onClick={() => { logout(); setMobileMenuOpen(false); }} className="p-4 border-b border-[#f0f0f0] text-left flex items-center gap-3 text-red-500 font-medium"><span className="text-xl">🚪</span> Logout</button>}
+             {user && <button onClick={handleLogout} className="p-4 border-b border-[#f0f0f0] text-left flex items-center gap-3 text-red-500 font-medium"><span className="text-xl">🚪</span> Logout</button>}
           </div>
         )}
 

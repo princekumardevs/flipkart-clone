@@ -24,7 +24,7 @@ function ProductDetail() {
       } catch (error) {
         console.error('Failed to fetch product:', error);
         toast.error('Product not found');
-        navigate('/');
+        navigate('/home');
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -150,7 +150,7 @@ function ProductDetail() {
           
           {/* Breadcrumbs */}
           <div className="flex items-center text-[11px] sm:text-[12px] text-flipkart-grey mb-2 font-medium overflow-x-auto whitespace-nowrap">
-            <Link to="/" className="hover:text-flipkart-blue">Home</Link>
+            <Link to="/home" className="hover:text-flipkart-blue">Home</Link>
             <span className="mx-2">›</span>
             <span>{product.category?.name || 'Category'}</span>
             <span className="mx-2">›</span>

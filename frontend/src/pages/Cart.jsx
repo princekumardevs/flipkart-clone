@@ -83,9 +83,9 @@ function Cart() {
         <div className="max-w-[1248px] mx-auto bg-white shadow-[0_1px_1px_0_rgba(0,0,0,.16)] rounded-sm min-h-[60vh] flex flex-col items-center justify-center py-10">
           <img src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90" alt="Empty Cart" className="w-[200px] md:w-[250px] mb-8" />
           <h2 className="text-[18px] text-flipkart-dark font-medium mb-3">Missing Cart items?</h2>
-          <p className="text-[12px] text-flipkart-grey mb-6">Login to see the items you added previously</p>
+          <p className="text-[12px] text-flipkart-grey mb-6">Your cart is empty. Add products to continue shopping.</p>
           <button 
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/home')}
             className="bg-flipkart-orange text-white px-16 py-[10px] rounded-sm font-medium text-[14px] shadow-sm hover:-translate-y-px transition-transform"
           >
             Shop Now

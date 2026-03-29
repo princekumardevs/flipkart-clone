@@ -13,7 +13,7 @@ function OrderSuccess() {
 
   useEffect(() => {
     if (!orderNumber) {
-      navigate('/');
+      navigate('/home');
       return;
     }
 
@@ -57,7 +57,7 @@ function OrderSuccess() {
       <div className="max-w-3xl mx-auto px-3 sm:px-4 py-8 sm:py-12 text-center">
         <p className="text-lg text-[#878787]">Order not found</p>
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/home')}
           className="mt-4 px-8 py-2.5 bg-[#2874f0] text-white font-semibold rounded-sm hover:bg-[#1a5bc4] cursor-pointer"
         >
           Go Home
@@ -157,7 +157,7 @@ function OrderSuccess() {
       {/* Continue Shopping */}
       <div className="text-center">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/home')}
           className="w-full sm:w-auto px-8 sm:px-12 py-3 bg-[#2874f0] text-white font-semibold rounded-sm hover:bg-[#1a5bc4] transition-colors cursor-pointer shadow-md"
           id="continue-shopping-btn"
         >

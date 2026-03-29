@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import api from '../lib/api';
 import { getSessionId } from '../lib/session';
 
@@ -17,6 +17,19 @@ export function CartProvider({ children }) {
       console.error('Failed to fetch cart count:', error);
     }
   }, []);
+
+  useEffect(() => {
+    refreshCartCount();
+
+    const onStorageChange = (event) => {
+      if (event.key === 'sessionId') {
+        refreshCartCount();
+      }
+    };
+
+    window.addEventListener('storage', onStorageChange);
+    return () => window.removeEventListener('storage', onStorageChange);
+  }, [refreshCartCount]);
 
   return (
     <CartContext.Provider value={{ cartCount, setCartCount, refreshCartCount }}>

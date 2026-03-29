@@ -12,8 +12,9 @@ A full-stack e-commerce web application replicating Flipkart's design and functi
 - Product listing with search and category filter
 - Product detail page with image carousel
 - Shopping cart (add, update quantity, remove)
-- Checkout with address form
+- Checkout with address form and order summary review
 - Order placement and confirmation
+- Guest checkout flow (no login required)
 
 ## Setup Instructions
 
@@ -56,3 +57,10 @@ npm run dev
 - Login/signup, wishlist, and order history are available as bonus features
 - Free delivery on orders above ₹499
 - Product images use public URLs with category-based fallback images for broken links
+
+## Submission Checklist
+- GitHub repository is public
+- Deployed application link is active
+- Core features are working end-to-end
+- Sample data is seeded before demo
+- You can explain implementation decisions during evaluation
