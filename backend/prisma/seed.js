@@ -10,6 +10,7 @@ async function main() {
   await prisma.orderItem.deleteMany();
   await prisma.order.deleteMany();
   await prisma.cartItem.deleteMany();
+  await prisma.wishlistItem.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
 
@@ -85,7 +86,7 @@ async function main() {
       categoryId: electronics.id,
       brand: 'Sony',
       images: [
-        "https://m.media-amazon.com/images/I/61vIICnN6SL._SX679_.jpg"
+        "https://m.media-amazon.com/images/I/61BGLYEN-xL._AC_UF1000,1000_QL80_.jpg"
       ],
     },
     {
@@ -100,7 +101,7 @@ async function main() {
       categoryId: electronics.id,
       brand: 'HP',
       images: [
-        "https://m.media-amazon.com/images/I/71f5Eu5lJSL._SX679_.jpg"
+        "https://m.media-amazon.com/images/I/714mXtkIrlL.jpg"
       ],
     },
 
@@ -117,7 +118,8 @@ async function main() {
       categoryId: fashion.id,
       brand: 'Nike',
       images: [
-        "https://m.media-amazon.com/images/I/71dX9fR1FSL._UY695_.jpg"
+        "https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/f/d/fd441d5YNIKEX00013650_1.jpg?rnd=20200526195200&tr=w-1080",
+        "https://adn-static1.nykaa.com/nykdesignstudio-images/pub/media/catalog/product/f/1/f1319d5AH8050-005_10.jpg?rnd=20200526195200&tr=w-1080"
       ],
     },
     {
@@ -132,7 +134,7 @@ async function main() {
       categoryId: fashion.id,
       brand: "Levi's",
       images: [
-        "https://m.media-amazon.com/images/I/81dZ6rKp9-L._UX679_.jpg"
+        "https://levi.in/cdn/shop/files/182981377_01_Front_e6457225-c467-4f7c-bc70-92ea79d6661d.jpg?v=1767769693&width=750"
       ],
     },
 
@@ -149,7 +151,7 @@ async function main() {
       categoryId: homeKitchen.id,
       brand: 'Prestige',
       images: [
-        "https://m.media-amazon.com/images/I/71r5cXlXlFL._SX679_.jpg"
+        "https://m.media-amazon.com/images/I/81z6RfbuUcL.jpg"
       ],
     },
     {
@@ -164,7 +166,7 @@ async function main() {
       categoryId: homeKitchen.id,
       brand: 'Milton',
       images: [
-        "https://m.media-amazon.com/images/I/61kKX3b6WXL._SX679_.jpg"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1HfvXLV8kXZRXA4oPRj2mk4O7A0SXZTDD-g&s"
       ],
     },
 
@@ -213,7 +215,7 @@ async function main() {
       categoryId: sports.id,
       brand: 'Yonex',
       images: [
-        "https://m.media-amazon.com/images/I/61h7F7VY5zL._SX679_.jpg"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnBiEBgIQBbEc55B_pJOPS2snThXDOdTwK7g&s"
       ],
     },
     {
@@ -228,7 +230,7 @@ async function main() {
       categoryId: sports.id,
       brand: 'Boldfit',
       images: [
-        "https://m.media-amazon.com/images/I/71Q5y0dJ6BL._SX679_.jpg"
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAjWcAf2K1cqQK4two5gcKaw_U2alYord43Q&s"
       ],
     },
 
@@ -245,8 +247,7 @@ async function main() {
       categoryId: electronics.id,
       brand: 'Samsung',
       images: [
-        'https://m.media-amazon.com/images/I/71zFP-6xLUL._SX679_.jpg',
-        'https://m.media-amazon.com/images/I/71zA6Tt7QxL._SX679_.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0-L0mZ-GQlMYrbw7gbBYOCv7u5IIGpKf0dw&s',
       ],
     },
     {
@@ -261,7 +262,7 @@ async function main() {
       categoryId: electronics.id,
       brand: 'JBL',
       images: [
-        'https://m.media-amazon.com/images/I/71iWl8rW5oL._SX679_.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnmCpDvRiUocDJsdbjBZX3ID0kg64vNKFJbQ&s',
       ],
     },
 
@@ -278,7 +279,7 @@ async function main() {
       categoryId: fashion.id,
       brand: 'Puma',
       images: [
-        'https://m.media-amazon.com/images/I/71X5f79N0dL._UX679_.jpg',
+        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_750,h_750/global/528856/99/mod01/fnd/IND/fmt/png/Train-All-Day-Men's-Breathable-Training-Tee",
       ],
     },
     {
@@ -293,7 +294,7 @@ async function main() {
       categoryId: fashion.id,
       brand: 'Fossil',
       images: [
-        'https://m.media-amazon.com/images/I/81J3f5D8ZJL._UX679_.jpg',
+        'https://www.kamalwatch.com/cdn/shop/files/MP000000014437899_658Wx734H_202209131823081_1.jpg?v=1756104779',
       ],
     },
 
@@ -310,7 +311,7 @@ async function main() {
       categoryId: homeKitchen.id,
       brand: 'Butterfly',
       images: [
-        'https://m.media-amazon.com/images/I/71hY0L+0VqL._SX679_.jpg',
+        'https://m.media-amazon.com/images/I/61QcAehpnzL.jpg',
       ],
     },
     {
@@ -325,7 +326,7 @@ async function main() {
       categoryId: homeKitchen.id,
       brand: 'Pigeon',
       images: [
-        'https://m.media-amazon.com/images/I/71FG6hM4fWL._SX679_.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDEqZNAFgzfJuJDhEwhuW-7XjGOWZv4VEpOA&s',
       ],
     },
 
@@ -374,7 +375,7 @@ async function main() {
       categoryId: sports.id,
       brand: 'Nivia',
       images: [
-        'https://m.media-amazon.com/images/I/71Dc6N7QfCL._SX679_.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCAxa6bkYdd-_nQSM63UPqBR-hm33dcI43kA&s',
       ],
     },
     {
@@ -389,7 +390,7 @@ async function main() {
       categoryId: sports.id,
       brand: 'SG',
       images: [
-        'https://m.media-amazon.com/images/I/71eJjU3m7+L._SX679_.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7lPaYnpNzLg92tlrIntLoJtt_KjriXJQe9A&s',
       ],
     },
   ];
