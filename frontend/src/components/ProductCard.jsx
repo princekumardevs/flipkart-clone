@@ -4,9 +4,10 @@ import { getProductImage, handleProductImageError } from '../lib/productImages';
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
-  const { isWishlisted, toggleWishlist } = useWishlist();
+  const { isWishlisted, toggleWishlist, isWishlistUpdating } = useWishlist();
   const price = parseFloat(product.price);
   const originalPrice = product.originalPrice ? parseFloat(product.originalPrice) : null;
+  const wishlistUpdating = isWishlistUpdating(product.id);
 
   return (
     <div 
@@ -27,11 +28,16 @@ function ProductCard({ product }) {
         )}
         <button
           onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}
-          className="absolute top-1.5 sm:top-2 right-1.5 sm:right-2 p-1.5 rounded-full bg-white/80 hover:bg-white shadow-sm pointer-events-auto transition-transform active:scale-90 z-20"
+          disabled={wishlistUpdating}
+          className="absolute top-1.5 sm:top-2 right-1.5 sm:right-2 p-1.5 rounded-full bg-white/80 hover:bg-white shadow-sm pointer-events-auto transition-transform active:scale-90 z-20 disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill={isWishlisted(product.id) ? "#ff6161" : "none"} stroke={isWishlisted(product.id) ? "#ff6161" : "#c2c2c2"} strokeWidth="1.5" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
+          {wishlistUpdating ? (
+            <span className="w-5 h-5 border-2 border-[#c2c2c2] border-t-[#2874f0] rounded-full animate-spin block"></span>
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill={isWishlisted(product.id) ? "#ff6161" : "none"} stroke={isWishlisted(product.id) ? "#ff6161" : "#c2c2c2"} strokeWidth="1.5" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+          )}
         </button>
       </div>
 

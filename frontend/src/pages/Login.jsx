@@ -5,15 +5,19 @@ import { useAuth } from '../context/AuthContext';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     const success = await login(email, password);
     if (success) {
       navigate('/home');
     }
+    setSubmitting(false);
   };
 
   return (
@@ -67,9 +71,11 @@ function Login() {
 
             <button 
               type="submit" 
-              className="w-full bg-flipkart-orange text-white py-[10px] rounded-sm font-medium text-[15px] shadow-sm mb-4"
+              disabled={submitting}
+              className="w-full bg-flipkart-orange text-white py-[10px] rounded-sm font-medium text-[15px] shadow-sm mb-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              Login
+              {submitting && <span className="w-4 h-4 border-2 border-white/60 border-t-white rounded-full animate-spin"></span>}
+              {submitting ? 'Logging in...' : 'Login'}
             </button>
             
             <div className="mb-4 p-4 bg-[#f4f8ff] border border-flipkart-blue/20 rounded-sm flex justify-between items-center">

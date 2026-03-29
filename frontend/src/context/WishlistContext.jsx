@@ -7,6 +7,7 @@ const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
+  const [pendingWishlistProductIds, setPendingWishlistProductIds] = useState([]);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -31,10 +32,14 @@ export const WishlistProvider = ({ children }) => {
   };
 
   const toggleWishlist = async (product) => {
+    if (pendingWishlistProductIds.includes(product.id)) return;
+
     if (!user) {
       toast.error('Please login to add to wishlist');
       return;
     }
+
+    setPendingWishlistProductIds((prev) => [...prev, product.id]);
     
     const isCurrentlyWishlisted = wishlist.some(item => item.productId === product.id);
     
@@ -52,10 +57,12 @@ export const WishlistProvider = ({ children }) => {
       await api.post('/api/wishlist/toggle', { productId: product.id }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      fetchWishlist(); // silently sync
+      await fetchWishlist(); // silently sync
     } catch (error) {
       toast.error('Failed to update wishlist');
-      fetchWishlist(); // Revert UI if it failed
+      await fetchWishlist(); // Revert UI if it failed
+    } finally {
+      setPendingWishlistProductIds((prev) => prev.filter((id) => id !== product.id));
     }
   };
 
@@ -63,8 +70,12 @@ export const WishlistProvider = ({ children }) => {
     return wishlist.some(item => item.productId === productId);
   };
 
+  const isWishlistUpdating = (productId) => {
+    return pendingWishlistProductIds.includes(productId);
+  };
+
   return (
-    <WishlistContext.Provider value={{ wishlist, toggleWishlist, isWishlisted }}>
+    <WishlistContext.Provider value={{ wishlist, toggleWishlist, isWishlisted, isWishlistUpdating }}>
       {children}
     </WishlistContext.Provider>
   );

@@ -7,15 +7,19 @@ function Signup() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const { signup } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
     const success = await signup(firstName, lastName, email, password);
     if (success) {
       navigate('/home');
     }
+    setSubmitting(false);
   };
 
   return (
@@ -96,9 +100,11 @@ function Signup() {
 
             <button
               type="submit"
-              className="w-full bg-flipkart-orange text-white py-3 rounded-sm font-medium text-[15px] shadow-sm hover:bg-[#f3580b] transition-colors"
+              disabled={submitting}
+              className="w-full bg-flipkart-orange text-white py-3 rounded-sm font-medium text-[15px] shadow-sm hover:bg-[#f3580b] transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              Continue
+              {submitting && <span className="w-4 h-4 border-2 border-white/60 border-t-white rounded-full animate-spin"></span>}
+              {submitting ? 'Creating account...' : 'Continue'}
             </button>
           </form>
 

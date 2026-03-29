@@ -9,6 +9,7 @@ function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pendingQuantityUpdates, setPendingQuantityUpdates] = useState({});
+  const [pendingRemoveItemId, setPendingRemoveItemId] = useState(null);
   const navigate = useNavigate();
   const { refreshCartCount } = useCart();
 
@@ -56,13 +57,17 @@ function Cart() {
   };
 
   const removeItem = async (itemId) => {
+    if (pendingRemoveItemId === itemId) return;
+    setPendingRemoveItemId(itemId);
     try {
       await api.delete(`/api/cart/${itemId}`);
       toast.success('Item removed');
       await refreshCartCount();
-      fetchCart();
+      await fetchCart();
     } catch (error) {
       toast.error('Failed to remove item');
+    } finally {
+      setPendingRemoveItemId(null);
     }
   };
 
@@ -148,7 +153,14 @@ function Cart() {
                     
                     <div className="mt-5 sm:mt-8 flex flex-wrap items-center gap-4 sm:gap-6">
                       <button className="text-[14px] sm:text-[16px] font-medium text-flipkart-dark hover:text-flipkart-blue">SAVE FOR LATER</button>
-                      <button onClick={() => removeItem(item.id)} className="text-[14px] sm:text-[16px] font-medium text-flipkart-dark hover:text-flipkart-blue">REMOVE</button>
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        disabled={pendingRemoveItemId === item.id}
+                        className="text-[14px] sm:text-[16px] font-medium text-flipkart-dark hover:text-flipkart-blue disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center gap-2"
+                      >
+                        {pendingRemoveItemId === item.id && <span className="w-3.5 h-3.5 border-2 border-[#666]/40 border-t-[#666] rounded-full animate-spin"></span>}
+                        {pendingRemoveItemId === item.id ? 'REMOVING...' : 'REMOVE'}
+                      </button>
                     </div>
                   </div>
 
