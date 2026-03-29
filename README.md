@@ -63,4 +63,3 @@ npm run dev
 - Deployed application link is active
 - Core features are working end-to-end
 - Sample data is seeded before demo
-- You can explain implementation decisions during evaluation
